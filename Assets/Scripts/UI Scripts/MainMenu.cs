@@ -15,4 +15,10 @@ public class MainMenu : MonoBehaviour
       Debug.Log("Quit");
       Application.Quit();
     }
+
+    public void SetPlayerCount (int pcIndex)
+    {
+        GameObject settings = GameObject.Find("GameSettings");
+        settings.GetComponent<GameSettings>().playerCount = pcIndex + 2;
+    }
 }
