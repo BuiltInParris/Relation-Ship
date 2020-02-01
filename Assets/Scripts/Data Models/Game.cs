@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Game : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class Game : MonoBehaviour
         {
             int xLoc = Constants.DISTANCE_BETWEEN_CARS * (i - numberOfPlayers/2);
             GameObject player = Instantiate(playerPrefab, new Vector3(xLoc, 0, 0), Quaternion.identity);
+            player.GetComponent<PlayerInput>().currentActionMap.devices = new InputDevice[] { Gamepad.all[i] };
             playersObjects.Add(player);
             Player playerScript = player.GetComponent<Player>();
             playerScript.setCurrentPosition(new Vector2(xLoc, 0));
