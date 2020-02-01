@@ -233,8 +233,7 @@ public class Player : MonoBehaviour
         //Output all of the collider names
         if(hitCollider != null){
             GameObject device = hitCollider.gameObject;
-            device.GetComponent<Device>().interact();
-            points += Constants.DEVICE_POINT_VALUE;
+            points += device.GetComponent<Device>().interact();
         }
     }
 

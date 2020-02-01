@@ -44,8 +44,14 @@ public class Device : MonoBehaviour, Interactable
         }
     }
 
-    public void interact(){
-        isDamaged = false;
-        this.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 1f);
+    public int interact(){
+        if(isDamaged)
+        {
+            isDamaged = false;
+            this.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 1f);
+
+            return Constants.DEVICE_POINT_VALUE;
+        }
+        return 0;
     }
 }
