@@ -9,10 +9,12 @@ public class Player : MonoBehaviour
     public float walkSpeed = 10.0f;
 
     // Vertical movement properties
-    public float gravityAcceleration = 0.5f;
+    public float gravityAcceleration = 12.0f;
     public float terminalVelocity = 9.0f;
     public float jumpVelocity = 4.0f;
     public float groundDistance = 0.02f;
+    public float jumpHoldAcceleration = 7.0f;
+    public float jumpHoldTime = 0.2f;
 
     // Physics properties
     public float minimumSeparation = 0.01f;
@@ -24,6 +26,8 @@ public class Player : MonoBehaviour
     // Private physics
     private Vector2 velocity = new Vector2(0.0f, 0.0f);
     private bool isGrounded = false;
+    private bool isJumpHeld = false;
+    private float currentJumpHeldTime = 0.0f;
 
     // Public physics
     public LayerMask m_LayerMask;
@@ -85,6 +89,11 @@ public class Player : MonoBehaviour
         wantsToJump = true;
     }
 
+    public void OnJumpRelease()
+    {
+        isJumpHeld = false;
+    }
+
     private void MoveHorizontal()
     {
         float horizontalMove = velocity.x * Time.fixedDeltaTime;
@@ -126,6 +135,24 @@ public class Player : MonoBehaviour
             // Apply gravitational acceleration
             velocity.y -= gravityAcceleration * Time.fixedDeltaTime;
             velocity.y = Mathf.Min(velocity.y, terminalVelocity);
+
+            // Check jump held
+            if (isJumpHeld)
+            {
+                // Accumulate time
+                currentJumpHeldTime += Time.fixedDeltaTime;
+
+                // If we haven't held for the max time, apply some upward force
+                if (currentJumpHeldTime <= jumpHoldTime)
+                {
+                    velocity.y += jumpHoldAcceleration * Time.fixedDeltaTime;
+                }
+                // Otherwise reset the jump held
+                else
+                {
+                    isJumpHeld = false;
+                }
+            }
         }
 
         // Check for buffered jump
@@ -135,6 +162,10 @@ public class Player : MonoBehaviour
             if (isGrounded)
             {
                 velocity.y = jumpVelocity;
+
+                // Start holding the jump
+                isJumpHeld = true;
+                currentJumpHeldTime = 0.0f;
             }
 
             // Reset buffered jump
@@ -160,6 +191,14 @@ public class Player : MonoBehaviour
                 {
                     // Limit velocity on landing
                     velocity.y = Mathf.Max(0.0f, velocity.y);
+                }
+                else if (verticalDirection > 0.0f)
+                {
+                    // Limit velocity on hit
+                    velocity.y = Mathf.Min(0.0f, velocity.y);
+
+                    // Force stop jump holding
+                    isJumpHeld = false;
                 }
             }
 
