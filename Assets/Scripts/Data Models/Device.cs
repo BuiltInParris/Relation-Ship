@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Device : MonoBehaviour
+public class Device : MonoBehaviour, Interactable
 {
     bool isDamaged;
 
@@ -39,5 +39,9 @@ public class Device : MonoBehaviour
                 lastRepaired = 0;
             }
         }
+    }
+
+    public void interact(){
+        isDamaged = true;
     }
 }

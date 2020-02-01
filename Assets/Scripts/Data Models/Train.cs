@@ -5,7 +5,7 @@ using UnityEngine;
 public class Train : MonoBehaviour
 {
 
-    int numberOfCars;
+    public int numberOfCars;
     int speed = 1;
     List<Car> cars;
 
