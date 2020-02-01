@@ -4,26 +4,46 @@ using UnityEngine;
 
 public class BasicCharacter : MonoBehaviour
 {
+    // Horizontal movement properties
     public float walkSpeed = 10.0f;
 
+    // Vertical movement properties
     public float gravityAcceleration = 0.5f;
     public float terminalVelocity = 9.0f;
     public float jumpVelocity = 4.0f;
 
+    // Physics properties
     public float minimumSeparation = 0.5f;
+    public bool doPositionSmoothing = true;
 
+    // Components
     private BoxCollider2D characterCollider;
 
+    // Private physics
     private Vector2 velocity = new Vector2(0.0f, 0.0f);
     private bool isGrounded = false;
+
+    // Interpolation
+    private Vector2 previousPosition;
+    private Vector2 currentPosition;
+    private float previousTime;
 
     void Start()
     {
         characterCollider = GetComponent<BoxCollider2D>();
     }
 
+    private void Update()
+    {
+        InterpolatePosition();
+    }
+
     void FixedUpdate()
     {
+        // Set last fixed update
+        previousPosition = currentPosition;
+        previousTime = Time.fixedTime;
+
         // Split vertical and horizontal moves to avoid catching on the ground
         MoveHorizontal();
         MoveVertical();
@@ -39,7 +59,7 @@ public class BasicCharacter : MonoBehaviour
         {
             // Raycast against "World" objects
             float horizontalDirection = horizontalWalk < 0.0f ? -1.0f : 1.0f;
-            RaycastHit2D hitResult = Physics2D.BoxCast(transform.position, characterCollider.size, 0.0f, new Vector2(horizontalDirection, 0.0f), Mathf.Abs(horizontalWalk), LayerMask.GetMask("World"));
+            RaycastHit2D hitResult = Physics2D.BoxCast(currentPosition, characterCollider.size, 0.0f, new Vector2(horizontalDirection, 0.0f), Mathf.Abs(horizontalWalk), LayerMask.GetMask("World"));
 
             // If we hit something, we can only move the distance of the raycast, minus the minimum separation (to prevent getting stuck in walls)
             if (hitResult)
@@ -48,7 +68,7 @@ public class BasicCharacter : MonoBehaviour
             }
 
             // Apply movement
-            transform.Translate(horizontalWalk, 0.0f, 0.0f);
+            currentPosition.x += horizontalWalk;
         }
     }
 
@@ -71,7 +91,7 @@ public class BasicCharacter : MonoBehaviour
         float verticalDirection = velocity.y < 0.0f ? -1.0f : 1.0f;
 
         // Raycast against "World" objects
-        RaycastHit2D hitResult = Physics2D.BoxCast(transform.position, characterCollider.size, 0.0f, new Vector2(0.0f, verticalDirection), Mathf.Abs(verticalMove), LayerMask.GetMask("World"));
+        RaycastHit2D hitResult = Physics2D.BoxCast(currentPosition, characterCollider.size, 0.0f, new Vector2(0.0f, verticalDirection), Mathf.Abs(verticalMove), LayerMask.GetMask("World"));
 
         // If we hit something, we can only move the distance of the raycast, minus the minimum separation (to prevent getting stuck in walls)
         if (hitResult)
@@ -89,6 +109,25 @@ public class BasicCharacter : MonoBehaviour
         }
 
         // Actually apply the movement
-        transform.Translate(0.0f, verticalMove, 0.0f);
+        currentPosition.y += verticalMove;
+    }
+
+    private void InterpolatePosition()
+    {
+        if (doPositionSmoothing)
+        {
+            // Figure out how much of a step has elapsed since position update
+            float timeSinceUpdate = Time.time - previousTime;
+            float alpha = timeSinceUpdate / Time.fixedDeltaTime;
+
+            // Interpolate position
+            Vector2 interpolatedPosition = Vector2.Lerp(previousPosition, currentPosition, alpha);
+            transform.position = new Vector3(interpolatedPosition.x, interpolatedPosition.y, 0.0f);
+        }
+        else
+        {
+            // Just set most recent position
+            transform.position = new Vector3(currentPosition.x, currentPosition.y);
+        }
     }
 }
