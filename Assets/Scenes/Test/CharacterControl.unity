@@ -263,6 +263,7 @@ MonoBehaviour:
   terminalVelocity: 9
   jumpVelocity: 8
   minimumSeparation: 0.01
+  doPositionSmoothing: 1
 --- !u!212 &202504490
 SpriteRenderer:
   m_ObjectHideFlags: 0
