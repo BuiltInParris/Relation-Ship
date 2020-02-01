@@ -265,6 +265,7 @@ MonoBehaviour:
   gravityAcceleration: 12
   terminalVelocity: 9
   jumpVelocity: 8
+  groundDistance: 0.03
   minimumSeparation: 0.01
   doPositionSmoothing: 1
 --- !u!212 &202504490
@@ -369,8 +370,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: 0}
-  m_NotificationBehavior: 0
+  m_Actions: {fileID: -944628639613478452, guid: d517d2c527ef35b4981113243cf49bc0,
+    type: 3}
+  m_NotificationBehavior: 1
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -381,10 +383,40 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: 73ef36d522f1024418873ac2648fddc5, type: 3}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: OnHorizontalInput
+          m_BoolArgument: 0
+        m_CallState: 0
+    m_ActionId: ff5964a0-a26a-4c32-b54e-90f2b8bc9fb7
+    m_ActionName: Default/Horizontal[/XInputControllerWindows/leftStick/x,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: 73ef36d522f1024418873ac2648fddc5, type: 3}
+        m_MethodName: set_name
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: OnJumpInput
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 39236f24-c036-4ec9-b035-538111d453fa
+    m_ActionName: Default/Jump[/XInputControllerWindows/buttonSouth,/Keyboard/w]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: 
+  m_DefaultActionMap: Default
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1 &507076259
