@@ -7,6 +7,10 @@ public class Player : MonoBehaviour
 {
     // Horizontal movement properties
     public float walkSpeed = 10.0f;
+    public float walkAcceleration = 40.0f;
+    public float walkFriction = 44.0f;
+    public bool canAccelerateFloating = false;
+    public float airAccelerationFactor = 0.7f;
 
     // Vertical movement properties
     public float gravityAcceleration = 12.0f;
@@ -18,7 +22,7 @@ public class Player : MonoBehaviour
 
     // Physics properties
     public float minimumSeparation = 0.01f;
-    public bool doPositionSmoothing = true;
+    public bool doPositionSmoothing = false;
 
     // Components
     private BoxCollider2D characterCollider;
@@ -39,6 +43,7 @@ public class Player : MonoBehaviour
 
     // Input buffer
     private bool wantsToJump = false;
+    private float horizontalAxis = 0.0f;
 
     // Game Logic
     public int points = 0;
@@ -80,7 +85,7 @@ public class Player : MonoBehaviour
 
     public void OnHorizontal(InputValue value)
     {
-        velocity.x = value.Get<float>() * walkSpeed;
+        horizontalAxis = value.Get<float>();
     }
 
     public void OnJump()
@@ -96,19 +101,60 @@ public class Player : MonoBehaviour
 
     private void MoveHorizontal()
     {
+        float desiredHorizontalVelocity = horizontalAxis * walkSpeed;
+
+        float accelerationFactor = 1.0f;
+
+        // Set acceleration factor differently when we're in the air
+        if (!isGrounded)
+        {
+            if (canAccelerateFloating)
+            {
+                accelerationFactor = airAccelerationFactor;
+            }
+            else
+            {
+                // Don't accelerate if disabled
+                accelerationFactor = 0.0f;
+            }
+        }
+
+        float horizontalAcceleration;
+
+        if (Mathf.Sign(desiredHorizontalVelocity) == Mathf.Sign(velocity.x))
+        {
+            horizontalAcceleration = walkAcceleration;
+        }
+        // Use different acceleration if we're changing direction/stopping
+        else
+        {
+            horizontalAcceleration = walkFriction;
+        }
+
+        float deltaHorizontalVelocityLimit = horizontalAcceleration * accelerationFactor * Time.fixedDeltaTime;
+
+        // Move towards desired velocity, but limit by acceleration
+        float deltaHorizontalVelocity = Mathf.Clamp(desiredHorizontalVelocity - velocity.x, -deltaHorizontalVelocityLimit, deltaHorizontalVelocityLimit);
+        velocity.x += deltaHorizontalVelocity;
+
         float horizontalMove = velocity.x * Time.fixedDeltaTime;
 
         // Only attempt move if there is some input
         if (horizontalMove != 0.0f)
         {
             // Raycast against "World" objects
-            float horizontalDirection = horizontalMove < 0.0f ? -1.0f : 1.0f;
+            float horizontalDirection = Mathf.Sign(horizontalMove);
             RaycastHit2D hitResult = Physics2D.BoxCast(currentPosition, characterCollider.size, 0.0f, new Vector2(horizontalDirection, 0.0f), Mathf.Abs(horizontalMove), LayerMask.GetMask("World"));
 
             // If we hit something, we can only move the distance of the raycast, minus the minimum separation (to prevent getting stuck in walls)
             if (hitResult)
             {
                 horizontalMove = (hitResult.distance - minimumSeparation) * horizontalDirection;
+
+                if (horizontalDirection == Mathf.Sign(velocity.x))
+                {
+                    velocity.x = 0.0f;
+                }
             }
 
             // Apply movement
@@ -176,7 +222,7 @@ public class Player : MonoBehaviour
         if (velocity.y != 0.0f)
         {
             float verticalMove = velocity.y * Time.fixedDeltaTime;
-            float verticalDirection = velocity.y < 0.0f ? -1.0f : 1.0f;
+            float verticalDirection = Mathf.Sign(velocity.y);
 
             // Raycast against "World" objects
             RaycastHit2D hitResult = Physics2D.BoxCast(currentPosition, characterCollider.size, 0.0f, new Vector2(0.0f, verticalDirection), Mathf.Abs(verticalMove), LayerMask.GetMask("World"));
