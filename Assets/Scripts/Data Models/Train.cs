@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Train : MonoBehaviour
 {
-
     public int numberOfCars;
     int speed = 1;
-    List<Car> cars;
+    List<GameObject> cars;
+    public GameObject carPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
-        cars = new List<Car>();
+        cars = new List<GameObject>();
         for (int i = 0; i < numberOfCars; i++){
-            Car car = new Car();
-            car.location = i;
+            GameObject car = Instantiate(carPrefab, new Vector3((i / 2) - 5, 0, 0), Quaternion.identity);
+            car.GetComponent<Car>().location = i;
             cars.Add(car);
         }
     }
