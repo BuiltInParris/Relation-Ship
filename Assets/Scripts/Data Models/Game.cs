@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
-    double time;
-    double gameTotalTime = 60;
+    public double time;
+    public double gameTotalTime;
     public GameObject trainPrefab;
     GameObject train;
     public GameObject playerPrefab;
@@ -39,7 +40,7 @@ public class Game : MonoBehaviour
     }
 
     // Update is called once per frame
-    void fixedUpdate()
+    void FixedUpdate()
     {
         time = time + 0.02;
         aggregatePointTotal();
@@ -51,6 +52,7 @@ public class Game : MonoBehaviour
     void endGame(){
 
         players.Sort((x, y) =>  x.points.CompareTo(y.points));
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         // This is where we switch scenes to the end scene
         // Train crash (or not?)
         // Victory/loss screen
