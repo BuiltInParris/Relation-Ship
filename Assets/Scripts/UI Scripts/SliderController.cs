@@ -28,8 +28,6 @@ public class SliderController : MonoBehaviour
 
         // % of train saved
         savedSlider.value = savedProgress;
-        Debug.Log(game.totalPoints);
-        Debug.Log(game.maxPoints);
 
     }
 }
