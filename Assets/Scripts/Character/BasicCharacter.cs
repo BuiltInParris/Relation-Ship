@@ -51,7 +51,7 @@ public class BasicCharacter : MonoBehaviour
 
     private void MoveHorizontal()
     {
-        float horizontalInput = Input.GetAxisRaw("Horizontal_1");
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
         float horizontalWalk = horizontalInput * walkSpeed * Time.fixedDeltaTime;
 
         // Only attempt move if there is some input
