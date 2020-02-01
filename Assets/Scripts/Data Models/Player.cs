@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
     bool repairing = false;
     private double time = 0;
     public double stunTimeRemaining = Constants.TIME_STUNNED;
+    private Device targetDevice;
 
     void Awake()
     {
@@ -69,6 +70,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         CheckStun();
+        CheckRepair();
         InterpolatePosition();
     }
 
@@ -81,14 +83,6 @@ public class Player : MonoBehaviour
         // Split vertical and horizontal moves to avoid catching on the ground
         MoveHorizontal();
         MoveVertical();
-
-        if(repairing){
-            time = time + 0.02;
-            float timerProgress = (float)time / 1.5f;
-
-            repairSlider.value = timerProgress;
-        }
-
     }
 
     public void OnHorizontal(InputValue value)
@@ -286,12 +280,20 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnStartRepair(){
+    void OnRepair(){
         Collider2D hitCollider = Physics2D.OverlapBox(gameObject.transform.position, transform.localScale, 0, m_LayerMask);
         if (hitCollider != null)
         {
-            repairSlider.gameObject.SetActive(true);
-            repairing = true;
+
+            Device hitDevice = hitCollider.GetComponentInParent<Device>();
+
+            if (hitDevice)
+            {
+                targetDevice = hitDevice;
+                repairSlider.gameObject.SetActive(true);
+                repairing = true;
+                time = 0.0f;
+            }
         }
     }
 
@@ -308,8 +310,37 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnRepair()
+    private void CheckRepair()
     {
+        if (repairing)
+        {
+            time += Time.deltaTime;
+
+            float timerProgress = (float)time / 1.5f;
+            repairSlider.value = timerProgress;
+
+            if (time >= 1.5f)
+            {
+                FinishRepair(true);
+            }
+        }
+    }
+
+    private void FinishRepair(bool wasSuccessful)
+    {
+        repairing = false;
+        repairSlider.gameObject.SetActive(false);
+
+        if (wasSuccessful)
+        {
+            points += targetDevice.interact();
+        }
+    }
+
+    void OnAttack()
+    {
+        Debug.Log("Trying to attack");
+
         if (GetCanMove())
         {
             // Set a contact filter for the layer mask
@@ -320,8 +351,6 @@ public class Player : MonoBehaviour
             // Get all colliders on layer
             List<Collider2D> characterOverlaps = new List<Collider2D>();
             characterCollider.OverlapCollider(characterFilter, characterOverlaps);
-
-            bool didStun = false;
 
             // Check all overlapping character colliders
             foreach (Collider2D overlap in characterOverlaps)
@@ -336,23 +365,6 @@ public class Player : MonoBehaviour
                     Debug.Log("Stunned a player");
 
                     overlapPlayer.Stun();
-                    didStun = true;
-                }
-            }
-
-            // Don't start repairing if we were just trying to stun
-            if (!didStun)
-            {
-                Collider2D hitCollider = Physics2D.OverlapBox(gameObject.transform.position, transform.localScale, 0, m_LayerMask);
-                //Check when there is a new collider coming into contact with the box
-                //Output all of the collider names
-                if (hitCollider != null)
-                {
-                    repairing = false;
-                    time = 0;
-                    repairSlider.gameObject.SetActive(false);
-                    GameObject device = hitCollider.gameObject;
-                    points += device.GetComponent<Device>().interact();
                 }
             }
         }
@@ -360,11 +372,10 @@ public class Player : MonoBehaviour
 
     public void Stun()
     {
-        repairing = false;
-        time = 0;
-        repairSlider.gameObject.SetActive(false);
         stunTimeRemaining = Constants.TIME_STUNNED;
         isStunned = true;
+
+        FinishRepair(false);
     }
 
     public void setCurrentPosition(Vector2 newPosition){
