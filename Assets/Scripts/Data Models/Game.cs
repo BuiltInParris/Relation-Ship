@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
-    double time;
-    double gameTotalTime = 60;
+    public double time;
+    public double gameTotalTime = 60;
     public GameObject trainPrefab;
     GameObject train;
     public GameObject playerPrefab;
@@ -34,13 +34,15 @@ public class Game : MonoBehaviour
     }
 
     // Update is called once per frame
-    void fixedUpdate()
+    void FixedUpdate()
     {
         time = time + 0.02;
         aggregatePointTotal();
         if(time > gameTotalTime){
             endGame();
         }
+
+        Debug.Log("time: " + time);
     }
 
     void endGame(){
