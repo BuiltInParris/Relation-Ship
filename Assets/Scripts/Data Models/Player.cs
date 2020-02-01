@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BasicCharacter : MonoBehaviour
+public class Player : MonoBehaviour
 {
     // Horizontal movement properties
     public float walkSpeed = 10.0f;
@@ -33,6 +33,12 @@ public class BasicCharacter : MonoBehaviour
     // Input buffer
     private bool wantsToJump = false;
 
+    // Game Logic
+    public int points = 0;
+    public int location = 0;
+    public bool isStunned = false;
+    public double lastDamaged = 3;
+
     void Awake()
     {
         characterCollider = GetComponent<BoxCollider2D>();
@@ -49,9 +55,20 @@ public class BasicCharacter : MonoBehaviour
         previousPosition = currentPosition;
         previousTime = Time.fixedTime;
 
-        // Split vertical and horizontal moves to avoid catching on the ground
-        MoveHorizontal();
-        MoveVertical();
+        if (isStunned)
+        {
+            lastDamaged = lastDamaged - 0.02;
+            if (lastDamaged == 0)
+            {
+                isStunned = false;
+                lastDamaged = 3;
+            }
+        } else {
+            // Split vertical and horizontal moves to avoid catching on the ground
+            MoveHorizontal();
+            MoveVertical();
+        }
+
     }
 
     public void OnHorizontal(InputValue value)
@@ -165,5 +182,14 @@ public class BasicCharacter : MonoBehaviour
             // Just set most recent position
             transform.position = new Vector3(currentPosition.x, currentPosition.y);
         }
+    }
+
+    void jump()
+    {
+
+    }
+
+    void repair(Device device)
+    {
     }
 }
