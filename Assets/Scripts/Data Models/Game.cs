@@ -6,21 +6,27 @@ public class Game : MonoBehaviour
 {
     double time;
     double gameTotalTime = 60;
-    Train train;
+    public GameObject trainPrefab;
+    GameObject train;
+    public GameObject playerPrefab;
+    List<GameObject> playersObjects;
     List<Player> players;
-    int numberOfPlayers = 2;
+    public int numberOfPlayers = 2;
     int totalPoints = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        train = new Train();
-        train.numberOfCars = numberOfPlayers;
+        train = Instantiate(trainPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        train.GetComponent<Train>().numberOfCars = numberOfPlayers;
+
+        playersObjects = new List<GameObject>();
         players = new List<Player>();
         for (int i = 0; i < numberOfPlayers; i++)
         {
-            Player player = new Player();
-            players.Add(player);
+            GameObject player = Instantiate(playerPrefab, new Vector3((i / 2)*10, 0, 0), Quaternion.identity);
+            playersObjects.Add(player);
+            players.Add(player.GetComponent<Player>());
         }
     }
 
@@ -35,7 +41,8 @@ public class Game : MonoBehaviour
     }
 
     void endGame(){
-        players.Sort((x, y) => x.points.CompareTo(y.points));
+
+        players.Sort((x, y) =>  x.points.CompareTo(y.points));
         // This is where we switch scenes to the end scene
         // Train crash (or not?)
         // Victory/loss screen

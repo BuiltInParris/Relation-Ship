@@ -20,12 +20,12 @@ public class Device : MonoBehaviour, Interactable
     // Start is called before the first frame update
     void Start()
     {
+        rnd = new System.Random();
         isDamaged = true;
         timeRepaired = 10;
         variableAmountOfTime = 3;
         lastRepaired = 0;
         randomTimeTillNextDamage = rnd.Next(0, variableAmountOfTime * 2) - variableAmountOfTime;
-        rnd = new System.Random();
     }
 
     // Update is called once per physics loop
