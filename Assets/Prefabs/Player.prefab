@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4308150376206432605}
   - component: {fileID: 4308150376206432603}
   - component: {fileID: 4308150376206432606}
+  - component: {fileID: 6324909984170819766}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -125,9 +126,43 @@ MonoBehaviour:
   gravityAcceleration: 12
   terminalVelocity: 9
   jumpVelocity: 8
+  groundDistance: 0.02
   minimumSeparation: 0.01
   doPositionSmoothing: 1
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 1024
   points: 0
+  location: 0
+  isStunned: 0
+  lastDamaged: 3
+--- !u!114 &6324909984170819766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4308150376206432607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: 0}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: 
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}

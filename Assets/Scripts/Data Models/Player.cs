@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -11,9 +12,10 @@ public class Player : MonoBehaviour
     public float gravityAcceleration = 0.5f;
     public float terminalVelocity = 9.0f;
     public float jumpVelocity = 4.0f;
+    public float groundDistance = 0.02f;
 
     // Physics properties
-    public float minimumSeparation = 0.5f;
+    public float minimumSeparation = 0.01f;
     public bool doPositionSmoothing = true;
 
     // Components
@@ -31,13 +33,16 @@ public class Player : MonoBehaviour
     private Vector2 currentPosition;
     private float previousTime;
 
+    // Input buffer
+    private bool wantsToJump = false;
+
     // Game Logic
     public int points = 0;
-    int location = 0;
-    bool isStunned = false;
-    double lastDamaged = Constants.TIME_STUNNED;
+    public int location = 0;
+    public bool isStunned = false;
+    public double lastDamaged = Constants.TIME_STUNNED;
 
-    void Start()
+    void Awake()
     {
         characterCollider = GetComponent<BoxCollider2D>();
     }
@@ -70,68 +75,98 @@ public class Player : MonoBehaviour
 
     }
 
+    public void OnHorizontal(InputValue value)
+    {
+        velocity.x = value.Get<float>() * walkSpeed;
+    }
+
+    public void OnJump()
+    {
+        // Buffer jump due to desync between input and fixed update
+        wantsToJump = true;
+    }
+
     private void MoveHorizontal()
     {
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float horizontalWalk = horizontalInput * walkSpeed * Time.fixedDeltaTime;
+        float horizontalMove = velocity.x * Time.fixedDeltaTime;
 
         // Only attempt move if there is some input
-        if (horizontalWalk != 0.0f)
+        if (horizontalMove != 0.0f)
         {
             // Raycast against "World" objects
-            float horizontalDirection = horizontalWalk < 0.0f ? -1.0f : 1.0f;
-            RaycastHit2D hitResult = Physics2D.BoxCast(currentPosition, characterCollider.size, 0.0f, new Vector2(horizontalDirection, 0.0f), Mathf.Abs(horizontalWalk), LayerMask.GetMask("World"));
+            float horizontalDirection = horizontalMove < 0.0f ? -1.0f : 1.0f;
+            RaycastHit2D hitResult = Physics2D.BoxCast(currentPosition, characterCollider.size, 0.0f, new Vector2(horizontalDirection, 0.0f), Mathf.Abs(horizontalMove), LayerMask.GetMask("World"));
 
             // If we hit something, we can only move the distance of the raycast, minus the minimum separation (to prevent getting stuck in walls)
             if (hitResult)
             {
-                horizontalWalk = (hitResult.distance - minimumSeparation) * horizontalDirection;
+                horizontalMove = (hitResult.distance - minimumSeparation) * horizontalDirection;
             }
 
             // Apply movement
-            currentPosition.x += horizontalWalk;
+            currentPosition.x += horizontalMove;
         }
     }
 
     private void MoveVertical()
     {
-        // Only jump if we're grounded
-        if (Input.GetButton("Jump_1"))
-        {
-            if (isGrounded)
-                velocity.y = jumpVelocity;
-        }
-
-        // Reset grounded state after all checks
+        // Reset grounded state
         isGrounded = false;
 
-        // Accelerate according to gravity and limit by terminal velocity
-        velocity.y -= gravityAcceleration * Time.fixedDeltaTime;
-        velocity.y = Mathf.Min(velocity.y, terminalVelocity);
+        // Test for ground just in case we're hovering above it
+        RaycastHit2D groundResult = Physics2D.BoxCast(currentPosition, characterCollider.size, 0.0f, new Vector2(0.0f, -1.0f), groundDistance, LayerMask.GetMask("World"));
 
-        float verticalMove = velocity.y * Time.fixedDeltaTime;
-        float verticalDirection = velocity.y < 0.0f ? -1.0f : 1.0f;
-
-        // Raycast against "World" objects
-        RaycastHit2D hitResult = Physics2D.BoxCast(currentPosition, characterCollider.size, 0.0f, new Vector2(0.0f, verticalDirection), Mathf.Abs(verticalMove), LayerMask.GetMask("World"));
-
-        // If we hit something, we can only move the distance of the raycast, minus the minimum separation (to prevent getting stuck in walls)
-        if (hitResult)
+        if (groundResult)
         {
-            verticalMove = (hitResult.distance - minimumSeparation) * verticalDirection;
-
-            // Set grounded if we hit something below us
-            if (verticalDirection < 0.0f)
-            {
-                isGrounded = true;
-
-                // Limit velocity on landing
-                velocity.y = Mathf.Max(0.0f, velocity.y);
-            }
+            // Limit ground downward velocity to 0 - still allows for jumps
+            isGrounded = true;
+            velocity.y = Mathf.Max(velocity.y, 0.0f);
+        }
+        else
+        {
+            // Apply gravitational acceleration
+            velocity.y -= gravityAcceleration * Time.fixedDeltaTime;
+            velocity.y = Mathf.Min(velocity.y, terminalVelocity);
         }
 
-        // Actually apply the movement
-        currentPosition.y += verticalMove;
+        // Check for buffered jump
+        if (wantsToJump)
+        {
+            // Only jump if we're grounded
+            if (isGrounded)
+            {
+                velocity.y = jumpVelocity;
+            }
+
+            // Reset buffered jump
+            wantsToJump = false;
+        }
+
+        // Don't do checks unless we're moving
+        if (velocity.y != 0.0f)
+        {
+            float verticalMove = velocity.y * Time.fixedDeltaTime;
+            float verticalDirection = velocity.y < 0.0f ? -1.0f : 1.0f;
+
+            // Raycast against "World" objects
+            RaycastHit2D hitResult = Physics2D.BoxCast(currentPosition, characterCollider.size, 0.0f, new Vector2(0.0f, verticalDirection), Mathf.Abs(verticalMove), LayerMask.GetMask("World"));
+
+            // If we hit something, we can only move the distance of the raycast, minus the minimum separation (to prevent getting stuck in walls)
+            if (hitResult)
+            {
+                verticalMove = (hitResult.distance - minimumSeparation) * verticalDirection;
+
+                // Set grounded if we hit something below us
+                if (verticalDirection <= 0.0f)
+                {
+                    // Limit velocity on landing
+                    velocity.y = Mathf.Max(0.0f, velocity.y);
+                }
+            }
+
+            // Actually apply the movement
+            currentPosition.y += verticalMove;
+        }
     }
 
     private void InterpolatePosition()
