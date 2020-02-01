@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
     public int points = 0;
     public int location = 0;
     public bool isStunned = false;
-    public double lastDamaged = Constants.TIME_STUNNED;
+    public double stunTimeRemaining = Constants.TIME_STUNNED;
 
     void Awake()
     {
@@ -58,6 +58,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        CheckStun();
         InterpolatePosition();
     }
 
@@ -67,19 +68,9 @@ public class Player : MonoBehaviour
         previousPosition = currentPosition;
         previousTime = Time.fixedTime;
 
-        if (isStunned)
-        {
-            lastDamaged = lastDamaged - 0.02;
-            if (lastDamaged == 0)
-            {
-                isStunned = false;
-                lastDamaged = Constants.TIME_STUNNED;
-            }
-        } else {
-            // Split vertical and horizontal moves to avoid catching on the ground
-            MoveHorizontal();
-            MoveVertical();
-        }
+        // Split vertical and horizontal moves to avoid catching on the ground
+        MoveHorizontal();
+        MoveVertical();
 
     }
 
@@ -101,7 +92,13 @@ public class Player : MonoBehaviour
 
     private void MoveHorizontal()
     {
-        float desiredHorizontalVelocity = horizontalAxis * walkSpeed;
+        float desiredHorizontalVelocity = 0.0f;
+
+        // Check to see if we can move
+        if (GetCanMove())
+        {
+            desiredHorizontalVelocity = horizontalAxis * walkSpeed;
+        }
 
         float accelerationFactor = 1.0f;
 
@@ -205,7 +202,7 @@ public class Player : MonoBehaviour
         if (wantsToJump)
         {
             // Only jump if we're grounded
-            if (isGrounded)
+            if (isGrounded && GetCanMove())
             {
                 velocity.y = jumpVelocity;
 
@@ -272,19 +269,84 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void CheckStun()
+    {
+        if (isStunned)
+        {
+            stunTimeRemaining -= Time.deltaTime;
+
+            if (stunTimeRemaining <= 0.0f)
+            {
+                isStunned = false;
+            }
+        }
+    }
+
     void OnRepair()
     {
-        Collider2D hitCollider = Physics2D.OverlapBox(gameObject.transform.position, transform.localScale, 0, m_LayerMask);
-        //Check when there is a new collider coming into contact with the box
-        //Output all of the collider names
-        if(hitCollider != null){
-            GameObject device = hitCollider.gameObject;
-            device.GetComponent<Device>().interact();
-            points += Constants.DEVICE_POINT_VALUE;
+        if (GetCanMove())
+        {
+            // Set a contact filter for the layer mask
+            ContactFilter2D characterFilter = new ContactFilter2D();
+            characterFilter.SetLayerMask(LayerMask.GetMask("Character"));
+            characterFilter.useLayerMask = true;
+
+            // Get all colliders on layer
+            List<Collider2D> characterOverlaps = new List<Collider2D>();
+            characterCollider.OverlapCollider(characterFilter, characterOverlaps);
+
+            bool didStun = false;
+
+            // Check all overlapping character colliders
+            foreach (Collider2D overlap in characterOverlaps)
+            {
+                // Try to grab the player
+                Player overlapPlayer = overlap.GetComponentInParent<Player>();
+
+                // Ignore this player
+                if (overlapPlayer && overlapPlayer != this && !overlapPlayer.isStunned)
+                {
+                    // Do a stun
+                    Debug.Log("Stunned a player");
+
+                    overlapPlayer.Stun();
+                    didStun = true;
+                }
+            }
+
+            // Don't start repairing if we were just trying to stun
+            if (!didStun)
+            {
+                Collider2D hitCollider = Physics2D.OverlapBox(gameObject.transform.position, transform.localScale, 0, m_LayerMask);
+                //Check when there is a new collider coming into contact with the box
+                //Output all of the collider names
+                if (hitCollider != null)
+                {
+                    GameObject device = hitCollider.gameObject;
+                    device.GetComponent<Device>().interact();
+                    points += Constants.DEVICE_POINT_VALUE;
+                }
+            }
         }
+    }
+
+    public void Stun()
+    {
+        stunTimeRemaining = Constants.TIME_STUNNED;
+        isStunned = true;
     }
 
     public void setCurrentPosition(Vector2 newPosition){
         currentPosition = newPosition;
+    }
+
+    private bool GetCanMove()
+    {
+        if (isStunned)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

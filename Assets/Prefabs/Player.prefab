@@ -141,7 +141,7 @@ MonoBehaviour:
   points: 0
   location: 0
   isStunned: 0
-  lastDamaged: 3
+  stunTimeRemaining: 3
 --- !u!114 &6324909984170819766
 MonoBehaviour:
   m_ObjectHideFlags: 0
