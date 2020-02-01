@@ -70,7 +70,6 @@ public class Player : MonoBehaviour
             // Split vertical and horizontal moves to avoid catching on the ground
             MoveHorizontal();
             MoveVertical();
-            Repair();
         }
 
     }
@@ -188,17 +187,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Repair()
+    void OnRepair()
     {
-        if (Input.GetButton("Repair"))
-        {
-            Collider2D hitCollider = Physics2D.OverlapBox(gameObject.transform.position, transform.localScale, 0, m_LayerMask);
-            //Check when there is a new collider coming into contact with the box
-            //Output all of the collider names
-            if(hitCollider != null){
-                GameObject device = hitCollider.gameObject;
-                device.GetComponent<Device>().interact();
-            }
+        Collider2D hitCollider = Physics2D.OverlapBox(gameObject.transform.position, transform.localScale, 0, m_LayerMask);
+        //Check when there is a new collider coming into contact with the box
+        //Output all of the collider names
+        if(hitCollider != null){
+            GameObject device = hitCollider.gameObject;
+            device.GetComponent<Device>().interact();
         }
     }
 

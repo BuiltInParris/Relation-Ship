@@ -11,16 +11,14 @@ public class Game : MonoBehaviour
     public GameObject playerPrefab;
     List<GameObject> playersObjects;
     List<Player> players;
-    public int numberOfPlayers = 0;
+    public int numberOfPlayers = 2;
     int totalPoints = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        GameObject settings = GameObject.Find("GameSettings");
-        numberOfPlayers = settings.GetComponent<GameSettings>().playerCount;
         train = Instantiate(trainPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        train.GetComponent<Train>().numberOfCars = numberOfPlayers + 2;
+        train.GetComponent<Train>().numberOfCars = numberOfPlayers + Constants.ADDITONAL_CARS;
 
         playersObjects = new List<GameObject>();
         players = new List<Player>();

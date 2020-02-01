@@ -12,11 +12,9 @@ public class Car : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        int playerCount = 2;//GameObject.Find("GameSettings").playerCount;
         devices = new List<GameObject>();
         for (int i = 0; i < numberOfDevices; i++){
-            int xLoc = Constants.DISTANCE_BETWEEN_CARS * (i - playerCount / 2);
-            GameObject device = Instantiate(devicePrefab, new Vector3(xLoc, 0, 0), Quaternion.identity);
+            GameObject device = Instantiate(devicePrefab, this.transform.position, Quaternion.identity);
             devices.Add(device);
         }
 

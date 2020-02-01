@@ -47,3 +47,4 @@ MonoBehaviour:
     type: 3}
   playerPrefab: {fileID: 4308150376206432607, guid: 7295dca7be6be4a02aa38d67ef3a2018,
     type: 3}
+  numberOfPlayers: 2
