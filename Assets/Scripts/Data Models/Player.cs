@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    int points = 0;
+    public int points = 0;
     int location = 0;
     bool isStunned = false;
     double lastDamaged = 3;
@@ -37,6 +37,6 @@ public class Player : MonoBehaviour
     }
 
     void repair(Device device){
-        device.isDamaged = false;
+        device.interact();
     }
 }

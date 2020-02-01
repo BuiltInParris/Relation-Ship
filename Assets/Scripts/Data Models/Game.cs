@@ -35,6 +35,7 @@ public class Game : MonoBehaviour
     }
 
     void endGame(){
+        players.Sort((x, y) => x.points.CompareTo(y.points));
         // This is where we switch scenes to the end scene
         // Train crash (or not?)
         // Victory/loss screen

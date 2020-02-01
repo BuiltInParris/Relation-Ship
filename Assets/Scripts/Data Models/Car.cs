@@ -6,13 +6,13 @@ public class Car : MonoBehaviour
 {
     List<Device> devices;
     int numberOfDevices = 1;
-    int location;
+    public int location;
     // Start is called before the first frame update
     void Start()
     {
         devices = new List<Device>();
         for (int i = 0; i < numberOfDevices; i++){
-            devices device = new Device();
+            Device device = new Device();
             devices.Add(device);
         }
 
