@@ -27,7 +27,7 @@ public class Game : MonoBehaviour
         {
             int xLoc = Constants.DISTANCE_BETWEEN_CARS * (i - numberOfPlayers/2);
             GameObject player = Instantiate(playerPrefab, new Vector3(xLoc, 0, 0), Quaternion.identity);
-            if(Gamepad.all.Count > numberOfPlayers)
+            if(Gamepad.all.Count >= numberOfPlayers)
             {
                 player.GetComponent<PlayerInput>().currentActionMap.devices = new InputDevice[] { Gamepad.all[i] };
             }
