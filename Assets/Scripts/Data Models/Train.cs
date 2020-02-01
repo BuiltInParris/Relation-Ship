@@ -14,7 +14,8 @@ public class Train : MonoBehaviour
     {
         cars = new List<GameObject>();
         for (int i = 0; i < numberOfCars; i++){
-            GameObject car = Instantiate(carPrefab, new Vector3((i / 2) - 5, 0, 0), Quaternion.identity);
+            int xLoc = Constants.DISTANCE_BETWEEN_CARS * (i - numberOfCars / 2);
+            GameObject car = Instantiate(carPrefab, new Vector3(xLoc, 0, 0), Quaternion.identity);
             car.GetComponent<Car>().location = i;
             cars.Add(car);
         }

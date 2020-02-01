@@ -24,7 +24,8 @@ public class Game : MonoBehaviour
         players = new List<Player>();
         for (int i = 0; i < numberOfPlayers; i++)
         {
-            GameObject player = Instantiate(playerPrefab, new Vector3((i / 2)*10, 0, 0), Quaternion.identity);
+            int xLoc = Constants.DISTANCE_BETWEEN_CARS * (i - numberOfPlayers/2);
+            GameObject player = Instantiate(playerPrefab, new Vector3(xLoc, 0, 0), Quaternion.identity);
             playersObjects.Add(player);
             players.Add(player.GetComponent<Player>());
         }
