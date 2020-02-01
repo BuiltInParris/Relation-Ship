@@ -560,16 +560,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 10
-  walkAcceleration: 40
-  walkFriction: 44
-  canAccelerateFloating: 0
+  walkAcceleration: 100
+  walkFriction: 110
+  canAccelerateFloating: 1
   airAccelerationFactor: 0.7
-  gravityAcceleration: 12
+  gravityAcceleration: 50
   terminalVelocity: 9
-  jumpVelocity: 8
+  jumpVelocity: 30
   groundDistance: 0.02
-  jumpHoldAcceleration: 31
-  jumpHoldTime: 0.3
+  jumpHoldAcceleration: 35
+  jumpHoldTime: 0.4
   minimumSeparation: 0.01
   doPositionSmoothing: 1
   repairSlider: {fileID: 0}
@@ -579,7 +579,7 @@ MonoBehaviour:
   points: 0
   location: 0
   isStunned: 0
-  lastDamaged: 3
+  stunTimeRemaining: 3
 --- !u!114 &6324909984170819766
 MonoBehaviour:
   m_ObjectHideFlags: 0
