@@ -43,8 +43,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dbc7295e238c4474aeef07d905aad1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  time: 0
+  gameTotalTime: 0
   trainPrefab: {fileID: 6950367424186426698, guid: 6a5da9f1dcc0740b6b090de1ff8bfb26,
+    type: 3}
+  enginePrefab: {fileID: 3108419296977304406, guid: 5560615ccf2a347e0a187412ff0ec5c5,
     type: 3}
   playerPrefab: {fileID: 4308150376206432607, guid: 7295dca7be6be4a02aa38d67ef3a2018,
     type: 3}
+  train: {fileID: 0}
+  engine: {fileID: 0}
   numberOfPlayers: 2
+  totalPoints: 0
+  maxPoints: 0
