@@ -30,6 +30,14 @@
                     "interactions": "Press"
                 },
                 {
+                    "name": "StartRepair",
+                    "type": "Button",
+                    "id": "5c2a2b84-e5fa-43cf-8b19-22176a27d1ea",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
                     "name": "JumpRelease",
                     "type": "Button",
                     "id": "78f39149-3ac0-467e-8e38-fb31c3b46db4",
@@ -109,7 +117,7 @@
                     "name": "",
                     "id": "276b879c-0360-4405-b6a5-445e760e6209",
                     "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
+                    "interactions": "Hold(duration=1.5,pressPoint=0.5),Press",
                     "processors": "",
                     "groups": "",
                     "action": "Repair",
@@ -120,7 +128,7 @@
                     "name": "",
                     "id": "9ec57c81-e350-44b3-8de4-a9096ef2ba80",
                     "path": "<Keyboard>/q",
-                    "interactions": "",
+                    "interactions": "Hold(duration=1.5)",
                     "processors": "",
                     "groups": "",
                     "action": "Repair",
@@ -146,6 +154,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "JumpRelease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "83ca2fc9-ae17-4212-9e0c-85448170e89b",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StartRepair",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "59d4af72-bdf4-4bcf-a40b-9f13037e1f07",
+                    "path": "<Keyboard>/q",
+                    "interactions": "Hold(duration=1.5)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StartRepair",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

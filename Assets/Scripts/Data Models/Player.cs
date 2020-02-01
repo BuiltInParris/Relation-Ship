@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class Player : MonoBehaviour
 
     // Components
     private BoxCollider2D characterCollider;
+    public Slider repairSlider;
 
     // Private physics
     private Vector2 velocity = new Vector2(0.0f, 0.0f);
@@ -50,10 +52,17 @@ public class Player : MonoBehaviour
     public int location = 0;
     public bool isStunned = false;
     public double lastDamaged = Constants.TIME_STUNNED;
+    bool repairing = false;
+    private double time = 0;
 
     void Awake()
     {
         characterCollider = GetComponent<BoxCollider2D>();
+    }
+
+    void Start() {
+        repairSlider = GetComponentInChildren<Slider>();
+        repairSlider.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -79,6 +88,13 @@ public class Player : MonoBehaviour
             // Split vertical and horizontal moves to avoid catching on the ground
             MoveHorizontal();
             MoveVertical();
+        }
+
+        if(repairing){
+            time = time + 0.02;
+            float timerProgress = (float)time / 1.5f;
+
+            repairSlider.value = timerProgress;
         }
 
     }
@@ -272,14 +288,26 @@ public class Player : MonoBehaviour
         }
     }
 
+    void OnStartRepair(){
+        Collider2D hitCollider = Physics2D.OverlapBox(gameObject.transform.position, transform.localScale, 0, m_LayerMask);
+        if (hitCollider != null)
+        {
+            repairSlider.gameObject.SetActive(true);
+            repairing = true;
+        }
+    }
+
     void OnRepair()
     {
+        repairing = false;
         Collider2D hitCollider = Physics2D.OverlapBox(gameObject.transform.position, transform.localScale, 0, m_LayerMask);
         //Check when there is a new collider coming into contact with the box
-        //Output all of the collider names
         if(hitCollider != null){
+            repairSlider.gameObject.SetActive(false);
+            time = 0;
             GameObject device = hitCollider.gameObject;
-            points += device.GetComponent<Device>().interact();
+            device.GetComponent<Device>().interact();
+            points += Constants.DEVICE_POINT_VALUE;
         }
     }
 
