@@ -16,13 +16,15 @@ public class Device : MonoBehaviour, Interactable
 
     double randomTimeTillNextDamage;
 
+    Color color;
+
 
     // Start is called before the first frame update
     void Start()
     {
         rnd = new System.Random();
         isDamaged = true;
-        timeRepaired = 10;
+        timeRepaired = 5;
         variableAmountOfTime = 3;
         lastRepaired = 0;
         randomTimeTillNextDamage = rnd.Next(0, variableAmountOfTime * 2) - variableAmountOfTime;
@@ -35,6 +37,7 @@ public class Device : MonoBehaviour, Interactable
             lastRepaired = lastRepaired + 0.02;
             if(lastRepaired > timeRepaired + randomTimeTillNextDamage){
                 isDamaged = true;
+                this.GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f, 1f);
                 randomTimeTillNextDamage = rnd.Next(0, variableAmountOfTime * 2) - variableAmountOfTime;
                 lastRepaired = 0;
             }
@@ -42,6 +45,7 @@ public class Device : MonoBehaviour, Interactable
     }
 
     public void interact(){
-        isDamaged = true;
+        isDamaged = false;
+        this.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 1f);
     }
 }

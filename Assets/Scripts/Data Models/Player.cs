@@ -23,6 +23,9 @@ public class Player : MonoBehaviour
     private Vector2 velocity = new Vector2(0.0f, 0.0f);
     private bool isGrounded = false;
 
+    // Public physics
+    public LayerMask m_LayerMask;
+
     // Interpolation
     private Vector2 previousPosition;
     private Vector2 currentPosition;
@@ -32,7 +35,7 @@ public class Player : MonoBehaviour
     public int points = 0;
     int location = 0;
     bool isStunned = false;
-    double lastDamaged = 3;
+    double lastDamaged = Constants.TIME_STUNNED;
 
     void Start()
     {
@@ -56,12 +59,13 @@ public class Player : MonoBehaviour
             if (lastDamaged == 0)
             {
                 isStunned = false;
-                lastDamaged = 3;
+                lastDamaged = Constants.TIME_STUNNED;
             }
         } else {
             // Split vertical and horizontal moves to avoid catching on the ground
             MoveHorizontal();
             MoveVertical();
+            Repair();
         }
 
     }
@@ -149,12 +153,21 @@ public class Player : MonoBehaviour
         }
     }
 
-    void jump()
+    void Repair()
     {
-
+        if (Input.GetButton("Repair"))
+        {
+            Collider2D hitCollider = Physics2D.OverlapBox(gameObject.transform.position, transform.localScale, 0, m_LayerMask);
+            //Check when there is a new collider coming into contact with the box
+            //Output all of the collider names
+            if(hitCollider != null){
+                GameObject device = hitCollider.gameObject;
+                device.GetComponent<Device>().interact();
+            }
+        }
     }
 
-    void repair(Device device)
-    {
+    public void setCurrentPosition(Vector2 newPosition){
+        currentPosition = newPosition;
     }
 }

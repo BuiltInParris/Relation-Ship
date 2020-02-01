@@ -11,14 +11,14 @@ public class Game : MonoBehaviour
     public GameObject playerPrefab;
     List<GameObject> playersObjects;
     List<Player> players;
-    public int numberOfPlayers = 2;
+    public int numberOfPlayers;
     int totalPoints = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         train = Instantiate(trainPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        train.GetComponent<Train>().numberOfCars = numberOfPlayers;
+        train.GetComponent<Train>().numberOfCars = numberOfPlayers + 2;
 
         playersObjects = new List<GameObject>();
         players = new List<Player>();
@@ -27,7 +27,9 @@ public class Game : MonoBehaviour
             int xLoc = Constants.DISTANCE_BETWEEN_CARS * (i - numberOfPlayers/2);
             GameObject player = Instantiate(playerPrefab, new Vector3(xLoc, 0, 0), Quaternion.identity);
             playersObjects.Add(player);
-            players.Add(player.GetComponent<Player>());
+            Player playerScript = player.GetComponent<Player>();
+            playerScript.setCurrentPosition(new Vector2(xLoc, 0));
+            players.Add(playerScript);
         }
     }
 

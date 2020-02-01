@@ -127,4 +127,7 @@ MonoBehaviour:
   jumpVelocity: 8
   minimumSeparation: 0.01
   doPositionSmoothing: 1
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
   points: 0
