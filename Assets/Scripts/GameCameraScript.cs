@@ -27,7 +27,7 @@ public class GameCameraScript : MonoBehaviour
         float followTimeDelta = 0.8f;
 
         Vector3 midpoint = new Vector3(0, 0, 0);
-        float distance = 10f;
+        float distance = Constants.PLAYER_CAMERA_MINIMUM_DISTANCE;
         for (int i = 0; i < players.Length; i++)
         {
             // Midpoint we're after
@@ -52,7 +52,7 @@ public class GameCameraScript : MonoBehaviour
         if (cam.orthographic)
         {
             // The camera's forward vector is irrelevant, only this size will matter
-            cam.orthographicSize = distance;
+            cam.orthographicSize = distance / 2.8f;
         }
         // You specified to use MoveTowards instead of Slerp
         cam.transform.position = Vector3.Slerp(cam.transform.position, cameraDestination, followTimeDelta);
@@ -60,5 +60,7 @@ public class GameCameraScript : MonoBehaviour
         // Snap when close enough to prevent annoying slerp behavior
         if ((cameraDestination - cam.transform.position).magnitude <= 0.05f)
             cam.transform.position = cameraDestination;
+
+        cam.fieldOfView = Mathf.Clamp(cam.fieldOfView, 0, 10);
     }
 }

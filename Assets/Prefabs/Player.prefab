@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 4308150376206432607}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -72,12 +72,12 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 62ec451a6e891a848b924b2a2c92b650, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: 7aac9b3b10ec7476592051b9c4713a61, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
+  m_DrawMode: 1
   m_Size: {x: 1.28, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
@@ -101,10 +101,10 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.28, y: 1.28}
+    oldSize: {x: 6.4, y: 7.52}
     newSize: {x: 1.28, y: 1.28}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
@@ -123,16 +123,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 10
-  walkAcceleration: 100
-  walkFriction: 110
-  canAccelerateFloating: 1
-  airAccelerationFactor: 0.7
-  gravityAcceleration: 50
+  gravityAcceleration: 12
   terminalVelocity: 9
-  jumpVelocity: 30
+  jumpVelocity: 8
   groundDistance: 0.02
-  jumpHoldAcceleration: 35
-  jumpHoldTime: 0.4
+  jumpHoldAcceleration: 31
+  jumpHoldTime: 0.3
   minimumSeparation: 0.01
   doPositionSmoothing: 1
   m_LayerMask:
