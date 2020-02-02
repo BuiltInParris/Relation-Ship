@@ -1828,7 +1828,7 @@ PrefabInstance:
     - target: {fileID: 7386394373159181433, guid: eca9553aac15d48b289b7860062aa32c,
         type: 3}
       propertyPath: numberOfPlayers
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7386394373159181433, guid: eca9553aac15d48b289b7860062aa32c,
         type: 3}
