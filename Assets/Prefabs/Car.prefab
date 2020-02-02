@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2842625135912928996}
   - component: {fileID: -2242349330720418606}
   - component: {fileID: 4178164908526480130}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Car
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3b2a3a54e830243ccba7d01b209af1d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 3587674582441558845}
   - component: {fileID: 5570289086300074851}
   - component: {fileID: 3695590567300052021}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Floor_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 8329120686984695052}
   - component: {fileID: 8329120686984695053}
   - component: {fileID: 8329120686984695042}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Floor_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
