@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 132561960}
   - component: {fileID: 132561959}
   - component: {fileID: 132561958}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Wall_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -431,7 +431,7 @@ GameObject:
   - component: {fileID: 1575331865}
   - component: {fileID: 1575331864}
   - component: {fileID: 1575331863}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Floor_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -539,7 +539,7 @@ GameObject:
   - component: {fileID: 1746024121}
   - component: {fileID: 1746024120}
   - component: {fileID: 1746024119}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Wall_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -661,7 +661,7 @@ GameObject:
   - component: {fileID: 4782541486104356392}
   - component: {fileID: 4529318628391622262}
   - component: {fileID: 4674625537384452384}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Floor_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -678,7 +678,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6117563549408486385}
   - component: {fileID: 1402704195922047431}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Car
   m_TagString: Untagged
   m_Icon: {fileID: 0}
