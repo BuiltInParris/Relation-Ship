@@ -10,4 +10,6 @@ public class GameState
     }
 
     public static List<PlayerState> playerStates = new List<PlayerState>();
+
+    public static int numSurvivors = 0;
 }

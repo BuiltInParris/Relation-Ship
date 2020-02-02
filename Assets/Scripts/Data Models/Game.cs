@@ -84,7 +84,7 @@ public class Game : MonoBehaviour
 
         // if (totalPoints >= maxPoints)
         {
-            SceneManager.LoadScene("Scenes/WinScene");
+            SceneManager.LoadScene("Scenes/Jump");
         }
 
         // SceneManager.LoadScene("Scenes/End Screen");
