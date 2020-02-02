@@ -18,11 +18,17 @@ public class Game : MonoBehaviour
     public int numberOfPlayers = 2;
     public int totalPoints = 0;
     public int maxPoints;
+    public Dictionary<int, Color> playerColors;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        numberOfPlayers = GameSettings.playerCount;
+        playerColors = new Dictionary<int, Color>();
+        playerColors.Add(0, new Color(25f, 0f, 0f, 255f));
+        playerColors.Add(1, new Color(0f, 25f, 0f, 255f));
+        playerColors.Add(2, new Color(0f, 0f, 25f, 255f));
+        playerColors.Add(3, new Color(0f, 25f, 255f, 255f));
 
         float xLoc = Constants.DISTANCE_BETWEEN_CARS * (-numberOfPlayers - numberOfPlayers / 2) - 0.5f;
         engine = Instantiate(enginePrefab, new Vector3(xLoc, 0, 0), Quaternion.identity);
@@ -40,6 +46,9 @@ public class Game : MonoBehaviour
         {
             xLoc = Constants.DISTANCE_BETWEEN_CARS * (i - numberOfPlayers/2);
             GameObject player = Instantiate(playerPrefab, new Vector3(xLoc, 0, 0), Quaternion.identity);
+
+            player.GetComponent<SpriteRenderer>().color = playerColors[i];
+
             if(Gamepad.all.Count >= numberOfPlayers)
             {
                 player.GetComponent<PlayerInput>().currentActionMap.devices = new InputDevice[] { Gamepad.all[i] };
@@ -53,7 +62,6 @@ public class Game : MonoBehaviour
             playerState.playerId = i;
             GameState.playerStates.Add(playerState);
             playerScript.playerState = GameState.playerStates[GameState.playerStates.Count - 1];
-
             players.Add(playerScript);
         }
     }
@@ -70,7 +78,7 @@ public class Game : MonoBehaviour
 
     void endGame(){
 
-        GameState.playerStates.Sort((x, y) =>  y.score.CompareTo(x.score));
+        GameState.playerStates.Sort((x, y) => y.score.CompareTo(x.score));
 
         // if (totalPoints >= maxPoints)
         {
