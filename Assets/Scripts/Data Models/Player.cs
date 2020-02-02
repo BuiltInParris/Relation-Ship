@@ -334,8 +334,7 @@ public class Player : MonoBehaviour
             if (stunTimeRemaining <= 0.0f)
             {
                 isStunned = false;
-                cloud.gameObject.GetComponent<SpriteRenderer>().color = new Color(255f, 255f, 255f, 0f);
-                cloud.SetBool("isStunned", false);
+                GetComponent<Animator>().SetBool("isStunned", false);
             }
         }
         if (stunCooldownCounter > 0)
@@ -424,8 +423,7 @@ public class Player : MonoBehaviour
     {
         stunTimeRemaining = Constants.TIME_STUNNED;
         isStunned = true;
-        cloud.gameObject.GetComponent<SpriteRenderer>().color = new Color(255f, 255f, 255f, 255f);
-        cloud.SetBool("isStunned", true);
+        GetComponent<Animator>().SetBool("isStunned", true);
 
         FinishRepair(false);
     }
