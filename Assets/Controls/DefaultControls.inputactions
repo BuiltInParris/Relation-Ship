@@ -52,7 +52,7 @@
                     "id": "823d9bb1-0c83-47ea-8655-d09b62431681",
                     "path": "<Gamepad>/leftStick/x",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "AxisDeadzone",
                     "groups": "",
                     "action": "Horizontal",
                     "isComposite": false,
