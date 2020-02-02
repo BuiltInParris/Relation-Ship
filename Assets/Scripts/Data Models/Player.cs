@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour
     // Components
     private BoxCollider2D characterCollider;
     public Slider repairSlider;
+    public TextMeshProUGUI cooldownText;
 
     // Private physics
     private Vector2 velocity = new Vector2(0.0f, 0.0f);
@@ -55,7 +57,12 @@ public class Player : MonoBehaviour
     bool repairing = false;
     private double time = 0;
     public double stunTimeRemaining = Constants.TIME_STUNNED;
+    public double stunCooldownCounter = 0;
+    public int stunCooldownDisplay;
     private Device targetDevice;
+
+    // Animation
+    private bool facingLeft = false;
 
     void Awake()
     {
@@ -65,6 +72,11 @@ public class Player : MonoBehaviour
     void Start() {
         repairSlider = GetComponentInChildren<Slider>();
         repairSlider.gameObject.SetActive(false);
+        cooldownText = GetComponentInChildren<TextMeshProUGUI>();
+        if(!cooldownText)
+        {
+            Debug.Log("can't find cooldown");
+        }
     }
 
     private void Update()
@@ -83,6 +95,7 @@ public class Player : MonoBehaviour
         // Split vertical and horizontal moves to avoid catching on the ground
         MoveHorizontal();
         MoveVertical();
+
     }
 
     public void OnHorizontal(InputValue value)
@@ -150,6 +163,12 @@ public class Player : MonoBehaviour
         // Only attempt move if there is some input
         if (horizontalMove != 0.0f)
         {
+            GetComponent<Animator>().SetFloat("horizontalSpeed", velocity.x);
+
+            if (horizontalMove < 0 && !facingLeft)
+                reverseImage();
+            else if (horizontalMove > 0 && facingLeft)
+                reverseImage();
             // Raycast against "World" objects
             float horizontalDirection = Mathf.Sign(horizontalMove);
             RaycastHit2D hitResult = Physics2D.BoxCast(currentPosition, characterCollider.size, 0.0f, new Vector2(horizontalDirection, 0.0f), Mathf.Abs(horizontalMove), LayerMask.GetMask("World"));
@@ -232,6 +251,8 @@ public class Player : MonoBehaviour
             float verticalMove = velocity.y * Time.fixedDeltaTime;
             float verticalDirection = Mathf.Sign(velocity.y);
 
+            GetComponent<Animator>().SetFloat("verticalSpeed", velocity.y);
+
             // Raycast against "World" objects
             RaycastHit2D hitResult = Physics2D.BoxCast(currentPosition, characterCollider.size, 0.0f, new Vector2(0.0f, verticalDirection), Mathf.Abs(verticalMove), LayerMask.GetMask("World"));
 
@@ -259,6 +280,7 @@ public class Player : MonoBehaviour
             // Actually apply the movement
             currentPosition.y += verticalMove;
         }
+        GetComponent<Animator>().SetBool("isGrounded", isGrounded);
     }
 
     private void InterpolatePosition()
@@ -280,23 +302,26 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnRepair(){
-        Collider2D hitCollider = Physics2D.OverlapBox(gameObject.transform.position, transform.localScale, 0, m_LayerMask);
-        if (hitCollider != null)
-        {
-
-            Device hitDevice = hitCollider.GetComponentInParent<Device>();
-
-            if (hitDevice)
+    void OnRepair()
+    {
+        if (GetCanMove()) {
+            Collider2D hitCollider = Physics2D.OverlapBox(gameObject.transform.position, transform.localScale, 0, m_LayerMask);
+            if (hitCollider != null)
             {
-                targetDevice = hitDevice;
-                repairSlider.gameObject.SetActive(true);
-                repairing = true;
-                time = 0.0f;
+                Device hitDevice = hitCollider.GetComponentInParent<Device>();
+
+                if (hitDevice && hitDevice.isDamaged)
+                {
+                    targetDevice = hitDevice;
+                    repairSlider.gameObject.SetActive(true);
+                    repairing = true;
+                    time = 0.0f;
+                }
             }
         }
     }
 
+    // check whether stunned or can stun
     private void CheckStun()
     {
         if (isStunned)
@@ -307,6 +332,21 @@ public class Player : MonoBehaviour
             {
                 isStunned = false;
             }
+        }
+        if (stunCooldownCounter > 0)
+        {
+            cooldownText.gameObject.SetActive(true);
+            stunCooldownCounter -= Time.deltaTime;
+            if(stunCooldownCounter < 0)
+            {
+                stunCooldownCounter = 0;
+            }
+            stunCooldownDisplay = (int)stunCooldownCounter + 1;
+            cooldownText.text = stunCooldownDisplay.ToString();
+        }
+        else
+        {
+            cooldownText.gameObject.SetActive(false);
         }
     }
 
@@ -337,35 +377,39 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnAttack()
+   public void OnAttack()
     {
-        Debug.Log("Trying to attack");
-
         if (GetCanMove())
         {
-            // Set a contact filter for the layer mask
-            ContactFilter2D characterFilter = new ContactFilter2D();
-            characterFilter.SetLayerMask(LayerMask.GetMask("Character"));
-            characterFilter.useLayerMask = true;
-
-            // Get all colliders on layer
-            List<Collider2D> characterOverlaps = new List<Collider2D>();
-            characterCollider.OverlapCollider(characterFilter, characterOverlaps);
-
-            // Check all overlapping character colliders
-            foreach (Collider2D overlap in characterOverlaps)
+            if(stunCooldownCounter == 0)
             {
-                // Try to grab the player
-                Player overlapPlayer = overlap.GetComponentInParent<Player>();
+                StunOtherPlayers();
+                stunCooldownCounter = Constants.STUN_COOLDOWN;
+            }
+        }
+    }
 
-                // Ignore this player
-                if (overlapPlayer && overlapPlayer != this && !overlapPlayer.isStunned)
-                {
-                    // Do a stun
-                    Debug.Log("Stunned a player");
+    private void StunOtherPlayers()
+    {
+        // Set a contact filter for the layer mask
+        ContactFilter2D characterFilter = new ContactFilter2D();
+        characterFilter.SetLayerMask(LayerMask.GetMask("Character"));
+        characterFilter.useLayerMask = true;
 
-                    overlapPlayer.Stun();
-                }
+        // Get all colliders on layer
+        List<Collider2D> characterOverlaps = new List<Collider2D>();
+        characterCollider.OverlapCollider(characterFilter, characterOverlaps);
+
+        // Check all overlapping character colliders
+        foreach (Collider2D overlap in characterOverlaps)
+        {
+            // Try to grab the player
+            Player overlapPlayer = overlap.GetComponentInParent<Player>();
+
+            // Ignore this player
+            if (overlapPlayer && overlapPlayer != this && !overlapPlayer.isStunned)
+            {
+                overlapPlayer.Stun();
             }
         }
     }
@@ -391,4 +435,16 @@ public class Player : MonoBehaviour
 
         return true;
     }
+
+    void reverseImage()
+    {
+        facingLeft = !facingLeft;
+        // Get and store the local scale of the RigidBody2D
+        Vector2 theScale = this.transform.localScale;
+ 
+        // Flip it around the other way
+        theScale.x *= -1;
+        this.transform.localScale = theScale;
+    }
+ 
 }

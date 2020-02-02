@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Device : MonoBehaviour, Interactable
 {
-    bool isDamaged;
+    public bool isDamaged;
 
     double timeRepaired;
 
