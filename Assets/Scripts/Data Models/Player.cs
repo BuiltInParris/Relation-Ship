@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Audio;
 
 public class Player : MonoBehaviour
 {
@@ -66,6 +67,11 @@ public class Player : MonoBehaviour
     public GameObject attackHitbox;
     private Collider2D attackCollider;
     public GameObject stunEffect;
+
+    // Sound
+    public AudioClip jumpClip;
+    public AudioClip attackClip;
+    public AudioClip fixClip;
 
     void Awake()
     {
@@ -192,6 +198,9 @@ public class Player : MonoBehaviour
 
     private void MoveVertical()
     {
+		//public AudioSource jumpSound;
+		//jumpSound = GetComponent<AudioSource>();
+		
         // Reset grounded state
         isGrounded = false;
 
@@ -240,6 +249,9 @@ public class Player : MonoBehaviour
                 // Start holding the jump
                 isJumpHeld = true;
                 currentJumpHeldTime = 0.0f;
+                
+                // Play jumping sound
+                playSound(jumpClip);
             }
 
             // Reset buffered jump
@@ -317,6 +329,8 @@ public class Player : MonoBehaviour
                     repairSlider.gameObject.SetActive(true);
                     repairing = true;
                     time = 0.0f;
+                    // Play fixing sound
+                    playSound(fixClip);
                 }
             }
         }
@@ -446,6 +460,9 @@ public class Player : MonoBehaviour
         isStunned = true;
         GetComponent<Animator>().SetBool("isStunned", true);
 
+        // Play attack sound
+        playSound(attackClip);
+
         FinishRepair(false);
 
         stunEffect.SetActive(true);
@@ -463,6 +480,22 @@ public class Player : MonoBehaviour
         }
 
         return true;
+    }
+
+    void reverseImage()
+    {
+        facingLeft = !facingLeft;
+        // Get and store the local scale of the RigidBody2D
+        Vector2 theScale = this.transform.localScale;
+ 
+        // Flip it around the other way
+        theScale.x *= -1;
+        this.transform.localScale = theScale;
+    }
+
+    void playSound(AudioClip audioClip) {
+        AudioSource audioSource = GetComponent<AudioSource>();
+        audioSource.PlayOneShot(audioClip, 0.7F);
     }
  
 }
