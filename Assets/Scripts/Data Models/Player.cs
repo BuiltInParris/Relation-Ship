@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Audio;
 
 public class Player : MonoBehaviour
 {
@@ -64,6 +65,11 @@ public class Player : MonoBehaviour
     // Animation
     private bool facingLeft = false;
     Animator cloud;
+
+    // Sound
+    public AudioClip jumpClip;
+    public AudioClip attackClip;
+    public AudioClip fixClip;
 
     void Awake()
     {
@@ -194,6 +200,9 @@ public class Player : MonoBehaviour
 
     private void MoveVertical()
     {
+		//public AudioSource jumpSound;
+		//jumpSound = GetComponent<AudioSource>();
+		
         // Reset grounded state
         isGrounded = false;
 
@@ -242,6 +251,9 @@ public class Player : MonoBehaviour
                 // Start holding the jump
                 isJumpHeld = true;
                 currentJumpHeldTime = 0.0f;
+                
+                // Play jumping sound
+                playSound(jumpClip);
             }
 
             // Reset buffered jump
@@ -319,6 +331,8 @@ public class Player : MonoBehaviour
                     repairSlider.gameObject.SetActive(true);
                     repairing = true;
                     time = 0.0f;
+                    // Play fixing sound
+                    playSound(fixClip);
                 }
             }
         }
@@ -425,6 +439,9 @@ public class Player : MonoBehaviour
         isStunned = true;
         GetComponent<Animator>().SetBool("isStunned", true);
 
+        // Play attack sound
+        playSound(attackClip);
+
         FinishRepair(false);
     }
 
@@ -452,5 +469,9 @@ public class Player : MonoBehaviour
         theScale.x *= -1;
         this.transform.localScale = theScale;
     }
- 
+
+    void playSound(AudioClip audioClip) {
+        AudioSource audioSource = GetComponent<AudioSource>();
+        audioSource.PlayOneShot(audioClip, 0.7F);
+    }
 }
