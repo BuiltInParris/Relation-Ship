@@ -46,3 +46,5 @@ MonoBehaviour:
   numberOfCars: 0
   carPrefab: {fileID: 6563733596488400962, guid: b6c2abdfe056c4bdeb2e81320a5561ff,
     type: 3}
+  skyPrefab: {fileID: 610704877958408185, guid: 810f342d9e586468e9bd737c3c6a75a8,
+    type: 3}
