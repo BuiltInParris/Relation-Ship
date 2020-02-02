@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Takeoff : MonoBehaviour
 {
-    private float yVel = 500;
+    public float yVel = 500;
+    public int playerNum;
+
     Dictionary<int, int> velocities;
     private int players = 0;
     //1050 is 0 players
@@ -16,12 +18,7 @@ public class Takeoff : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        velocities = new Dictionary<int, int>();
-        velocities.Add(0, 1050);
-        velocities.Add(1, 1100);
-        velocities.Add(2, 1200);
-        velocities.Add(3, 1250);
-        velocities.Add(4, 1300);
+        velocities = new Dictionary<int, int>() { { 0, 1050 }, { 1, 1100 }, { 2, 1200 }, { 3, 1250 }, { 4, 1300 } };
 
         int totalScore = 0;
 
@@ -43,6 +40,15 @@ public class Takeoff : MonoBehaviour
             playersLeft = 4;
         }
 
-        this.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(velocities[playersLeft], yVel));
+        GameState.numSurvivors = playersLeft;
+
+        float xForce = 1300;
+
+        if (playersLeft < playerNum)
+        {
+            xForce = 500;
+        }
+
+        this.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(xForce, yVel));
     }
 }
