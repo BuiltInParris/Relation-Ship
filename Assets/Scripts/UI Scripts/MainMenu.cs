@@ -18,7 +18,6 @@ public class MainMenu : MonoBehaviour
 
     public void SetPlayerCount (int pcIndex)
     {
-        GameObject settings = GameObject.Find("GameSettings");
-        settings.GetComponent<GameSettings>().playerCount = pcIndex + 2;
+        GameSettings.playerCount = pcIndex + 2;
     }
 }

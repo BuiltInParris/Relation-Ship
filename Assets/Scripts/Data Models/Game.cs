@@ -22,6 +22,8 @@ public class Game : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        numberOfPlayers = GameSettings.playerCount;
+
         float xLoc = Constants.DISTANCE_BETWEEN_CARS * (-numberOfPlayers - numberOfPlayers / 2) - 0.5f;
         engine = Instantiate(enginePrefab, new Vector3(xLoc, 0, 0), Quaternion.identity);
 
