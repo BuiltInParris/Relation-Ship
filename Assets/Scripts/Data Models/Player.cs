@@ -280,19 +280,22 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnRepair(){
-        Collider2D hitCollider = Physics2D.OverlapBox(gameObject.transform.position, transform.localScale, 0, m_LayerMask);
-        if (hitCollider != null)
-        {
-
-            Device hitDevice = hitCollider.GetComponentInParent<Device>();
-
-            if (hitDevice)
+    void OnRepair()
+    {
+        if (GetCanMove()) {
+            Collider2D hitCollider = Physics2D.OverlapBox(gameObject.transform.position, transform.localScale, 0, m_LayerMask);
+            if (hitCollider != null)
             {
-                targetDevice = hitDevice;
-                repairSlider.gameObject.SetActive(true);
-                repairing = true;
-                time = 0.0f;
+
+                Device hitDevice = hitCollider.GetComponentInParent<Device>();
+
+                if (hitDevice && hitDevice.isDamaged)
+                {
+                    targetDevice = hitDevice;
+                    repairSlider.gameObject.SetActive(true);
+                    repairing = true;
+                    time = 0.0f;
+                }
             }
         }
     }
@@ -339,7 +342,6 @@ public class Player : MonoBehaviour
 
     void OnAttack()
     {
-        Debug.Log("Trying to attack");
 
         if (GetCanMove())
         {
@@ -361,9 +363,6 @@ public class Player : MonoBehaviour
                 // Ignore this player
                 if (overlapPlayer && overlapPlayer != this && !overlapPlayer.isStunned)
                 {
-                    // Do a stun
-                    Debug.Log("Stunned a player");
-
                     overlapPlayer.Stun();
                 }
             }
