@@ -470,7 +470,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.5, y: 1.06}
+  m_AnchoredPosition: {x: -2.1, y: 1.06}
   m_SizeDelta: {x: 11.954, y: 2.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &405481789931116908
@@ -627,8 +627,6 @@ Transform:
   m_Children:
   - {fileID: 71018727}
   - {fileID: 377268934}
-  - {fileID: 1441975033773768910}
-  - {fileID: 6158945406510598288}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -733,8 +731,8 @@ MonoBehaviour:
   jumpHoldTime: 0.4
   minimumSeparation: 0.01
   doPositionSmoothing: 1
-  repairSlider: {fileID: 1703938517}
-  cooldownText: {fileID: 5588913155302717560}
+  repairSlider: {fileID: 0}
+  cooldownText: {fileID: 0}
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -747,8 +745,11 @@ MonoBehaviour:
   jumpClip: {fileID: 8300000, guid: 5fd51cfffcf9f48629cade5a0738ed1c, type: 3}
   attackClip: {fileID: 8300000, guid: 428c464349284db448e38deec1b7ec82, type: 3}
   fixClip: {fileID: 8300000, guid: 12bc76767fbeff84c986d6e0abf2f244, type: 3}
+<<<<<<< HEAD
   attackHitbox: {fileID: 7744223771167386360}
   stunEffect: {fileID: 4622438929281174781}
+=======
+>>>>>>> e8889c0cbb09a59fb935255211707280e91c84f1
 --- !u!114 &6324909984170819766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,6 +802,7 @@ Animator:
   m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!82 &-6999601627776731141
 AudioSource:
+<<<<<<< HEAD
 --- !u!1 &4622438929281174781
 GameObject:
   m_ObjectHideFlags: 0
@@ -1026,12 +1028,15 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2078630834719996018
 BoxCollider2D:
+=======
+>>>>>>> e8889c0cbb09a59fb935255211707280e91c84f1
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7744223771167386360}
   m_Enabled: 1
+<<<<<<< HEAD
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -1050,3 +1055,93 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.6}
   m_EdgeRadius: 0
+=======
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 1
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+>>>>>>> e8889c0cbb09a59fb935255211707280e91c84f1

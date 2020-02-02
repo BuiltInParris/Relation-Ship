@@ -61,12 +61,15 @@ public class Player : MonoBehaviour
     public int stunCooldownDisplay;
     private Device targetDevice;
     public GameState.PlayerState playerState;
-    private bool isAttacking = false;
 
-    // Attack
-    public GameObject attackHitbox;
-    private Collider2D attackCollider;
-    public GameObject stunEffect;
+    // Animation
+    private bool facingLeft = false;
+    Animator cloud;
+
+    // Sound
+    public AudioClip jumpClip;
+    public AudioClip attackClip;
+    public AudioClip fixClip;
 
     // Sound
     public AudioClip jumpClip;
@@ -76,14 +79,14 @@ public class Player : MonoBehaviour
     void Awake()
     {
         characterCollider = GetComponent<BoxCollider2D>();
-        attackCollider = attackHitbox.GetComponent<BoxCollider2D>();
     }
 
     void Start() {
         repairSlider = GetComponentInChildren<Slider>();
         repairSlider.gameObject.SetActive(false);
         cooldownText = GetComponentInChildren<TextMeshProUGUI>();
-
+        cloud = this.transform.Find("Cloud").GetComponent<Animator>();
+        cloud.gameObject.GetComponent<SpriteRenderer>().color = new Color(255f, 255f, 255f, 0f);
         if(!cooldownText)
         {
             Debug.Log("can't find cooldown");
@@ -176,6 +179,10 @@ public class Player : MonoBehaviour
         {
             GetComponent<Animator>().SetFloat("horizontalSpeed", velocity.x);
 
+            if (horizontalMove < 0 && !facingLeft)
+                reverseImage();
+            else if (horizontalMove > 0 && facingLeft)
+                reverseImage();
             // Raycast against "World" objects
             float horizontalDirection = Mathf.Sign(horizontalMove);
             RaycastHit2D hitResult = Physics2D.BoxCast(currentPosition, characterCollider.size, 0.0f, new Vector2(horizontalDirection, 0.0f), Mathf.Abs(horizontalMove), LayerMask.GetMask("World"));
@@ -347,7 +354,6 @@ public class Player : MonoBehaviour
             {
                 isStunned = false;
                 GetComponent<Animator>().SetBool("isStunned", false);
-                stunEffect.SetActive(false);
             }
         }
         if (stunCooldownCounter > 0)
@@ -400,36 +406,14 @@ public class Player : MonoBehaviour
         {
             if(stunCooldownCounter == 0)
             {
-                isAttacking = true;
-                GetComponent<Animator>().SetBool("isAttacking", isAttacking);
-
+                StunOtherPlayers();
                 stunCooldownCounter = Constants.STUN_COOLDOWN;
             }
         }
     }
 
-    public void OnAttackAnimationActive()
-    {
-        StunOtherPlayers();
-    }
-
-    public void OnAttackAnimationEnd()
-    {
-        isAttacking = false;
-        GetComponent<Animator>().SetBool("isAttacking", isAttacking);
-    }
-
     private void StunOtherPlayers()
     {
-        if (GetComponent<SpriteRenderer>().flipX)
-        {
-            attackHitbox.transform.localScale = new Vector3(-1.0f, 1.0f);
-        }
-        else
-        {
-            attackHitbox.transform.localScale = new Vector3(1.0f, 1.0f);
-        }
-
         // Set a contact filter for the layer mask
         ContactFilter2D characterFilter = new ContactFilter2D();
         characterFilter.SetLayerMask(LayerMask.GetMask("Character"));
@@ -437,7 +421,7 @@ public class Player : MonoBehaviour
 
         // Get all colliders on layer
         List<Collider2D> characterOverlaps = new List<Collider2D>();
-        attackCollider.OverlapCollider(characterFilter, characterOverlaps);
+        characterCollider.OverlapCollider(characterFilter, characterOverlaps);
 
         // Check all overlapping character colliders
         foreach (Collider2D overlap in characterOverlaps)
@@ -462,10 +446,13 @@ public class Player : MonoBehaviour
 
         // Play attack sound
         playSound(attackClip);
+<<<<<<< HEAD
 
         FinishRepair(false);
+=======
+>>>>>>> e8889c0cbb09a59fb935255211707280e91c84f1
 
-        stunEffect.SetActive(true);
+        FinishRepair(false);
     }
 
     public void setCurrentPosition(Vector2 newPosition){
@@ -487,6 +474,7 @@ public class Player : MonoBehaviour
         facingLeft = !facingLeft;
         // Get and store the local scale of the RigidBody2D
         Vector2 theScale = this.transform.localScale;
+<<<<<<< HEAD
  
         // Flip it around the other way
         theScale.x *= -1;
@@ -497,5 +485,16 @@ public class Player : MonoBehaviour
         AudioSource audioSource = GetComponent<AudioSource>();
         audioSource.PlayOneShot(audioClip, 0.7F);
     }
+=======
+>>>>>>> e8889c0cbb09a59fb935255211707280e91c84f1
  
+        // Flip it around the other way
+        theScale.x *= -1;
+        this.transform.localScale = theScale;
+    }
+
+    void playSound(AudioClip audioClip) {
+        AudioSource audioSource = GetComponent<AudioSource>();
+        audioSource.PlayOneShot(audioClip, 0.7F);
+    }
 }
