@@ -509,8 +509,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294937693
-  m_fontColor: {r: 0.36320752, g: 0.5505178, b: 1, a: 1}
+    rgba: 4294008319
+  m_fontColor: {r: 1, g: 0.36470592, b: 0.94357866, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -730,6 +730,7 @@ MonoBehaviour:
   minimumSeparation: 0.01
   doPositionSmoothing: 1
   repairSlider: {fileID: 0}
+  cooldownText: {fileID: 0}
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 1024
