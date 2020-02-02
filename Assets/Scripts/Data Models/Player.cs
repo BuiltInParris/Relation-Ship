@@ -50,7 +50,6 @@ public class Player : MonoBehaviour
     private float horizontalAxis = 0.0f;
 
     // Game Logic
-    public int points = 0;
     public int location = 0;
     public bool isStunned = false;
     public double lastDamaged = Constants.TIME_STUNNED;
@@ -60,6 +59,7 @@ public class Player : MonoBehaviour
     public double stunCooldownCounter = 0;
     public int stunCooldownDisplay;
     private Device targetDevice;
+    public GameState.PlayerState playerState;
 
     // Animation
     private bool facingLeft = false;
@@ -373,7 +373,7 @@ public class Player : MonoBehaviour
 
         if (wasSuccessful)
         {
-            points += targetDevice.interact();
+            playerState.score += targetDevice.interact();
         }
     }
 

@@ -22,6 +22,8 @@ public class Game : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        numberOfPlayers = GameSettings.playerCount;
+
         float xLoc = Constants.DISTANCE_BETWEEN_CARS * (-numberOfPlayers - numberOfPlayers / 2) - 0.5f;
         engine = Instantiate(enginePrefab, new Vector3(xLoc, 0, 0), Quaternion.identity);
 
@@ -31,6 +33,9 @@ public class Game : MonoBehaviour
 
         playersObjects = new List<GameObject>();
         players = new List<Player>();
+
+        GameState.playerStates = new List<GameState.PlayerState>();
+
         for (int i = 0; i < numberOfPlayers; i++)
         {
             xLoc = Constants.DISTANCE_BETWEEN_CARS * (i - numberOfPlayers/2);
@@ -42,6 +47,13 @@ public class Game : MonoBehaviour
             playersObjects.Add(player);
             Player playerScript = player.GetComponent<Player>();
             playerScript.setCurrentPosition(new Vector2(xLoc, 0));
+
+            // Create a new player state and add it to the player
+            GameState.PlayerState playerState = new GameState.PlayerState();
+            playerState.playerId = i;
+            GameState.playerStates.Add(playerState);
+            playerScript.playerState = GameState.playerStates[GameState.playerStates.Count - 1];
+
             players.Add(playerScript);
         }
     }
@@ -58,8 +70,14 @@ public class Game : MonoBehaviour
 
     void endGame(){
 
-        players.Sort((x, y) =>  x.points.CompareTo(y.points));
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        GameState.playerStates.Sort((x, y) =>  y.score.CompareTo(x.score));
+
+        // if (totalPoints >= maxPoints)
+        {
+            SceneManager.LoadScene("Scenes/WinScene");
+        }
+
+        // SceneManager.LoadScene("Scenes/End Screen");
         // This is where we switch scenes to the end scene
         // Train crash (or not?)
         // Victory/loss screen
@@ -67,8 +85,8 @@ public class Game : MonoBehaviour
 
     void aggregatePointTotal(){
         totalPoints = 0;
-        foreach(Player player in players){
-            totalPoints = totalPoints + player.points;
+        foreach(GameState.PlayerState playerState in GameState.playerStates){
+            totalPoints += playerState.score;
         }
     }
 }
