@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour
     // Components
     private BoxCollider2D characterCollider;
     public Slider repairSlider;
+    public TextMeshProUGUI cooldownText;
 
     // Private physics
     private Vector2 velocity = new Vector2(0.0f, 0.0f);
@@ -55,6 +57,8 @@ public class Player : MonoBehaviour
     bool repairing = false;
     private double time = 0;
     public double stunTimeRemaining = Constants.TIME_STUNNED;
+    public double stunCooldownCounter = 0;
+    public int stunCooldownDisplay;
     private Device targetDevice;
 
     void Awake()
@@ -65,6 +69,11 @@ public class Player : MonoBehaviour
     void Start() {
         repairSlider = GetComponentInChildren<Slider>();
         repairSlider.gameObject.SetActive(false);
+        cooldownText = GetComponentInChildren<TextMeshProUGUI>();
+        if(!cooldownText)
+        {
+            Debug.Log("can't find cooldown");
+        }
     }
 
     private void Update()
@@ -83,6 +92,7 @@ public class Player : MonoBehaviour
         // Split vertical and horizontal moves to avoid catching on the ground
         MoveHorizontal();
         MoveVertical();
+
     }
 
     public void OnHorizontal(InputValue value)
@@ -300,6 +310,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    // check whether stunned or can stun
     private void CheckStun()
     {
         if (isStunned)
@@ -310,6 +321,21 @@ public class Player : MonoBehaviour
             {
                 isStunned = false;
             }
+        }
+        if (stunCooldownCounter > 0)
+        {
+            cooldownText.gameObject.SetActive(true);
+            stunCooldownCounter -= Time.deltaTime;
+            if(stunCooldownCounter < 0)
+            {
+                stunCooldownCounter = 0;
+            }
+            stunCooldownDisplay = (int)stunCooldownCounter + 1;
+            cooldownText.text = stunCooldownDisplay.ToString();
+        }
+        else
+        {
+            cooldownText.gameObject.SetActive(false);
         }
     }
 
@@ -340,31 +366,39 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnAttack()
+   public void OnAttack()
     {
-
         if (GetCanMove())
         {
-            // Set a contact filter for the layer mask
-            ContactFilter2D characterFilter = new ContactFilter2D();
-            characterFilter.SetLayerMask(LayerMask.GetMask("Character"));
-            characterFilter.useLayerMask = true;
-
-            // Get all colliders on layer
-            List<Collider2D> characterOverlaps = new List<Collider2D>();
-            characterCollider.OverlapCollider(characterFilter, characterOverlaps);
-
-            // Check all overlapping character colliders
-            foreach (Collider2D overlap in characterOverlaps)
+            if(stunCooldownCounter == 0)
             {
-                // Try to grab the player
-                Player overlapPlayer = overlap.GetComponentInParent<Player>();
+                StunOtherPlayers();
+                stunCooldownCounter = Constants.STUN_COOLDOWN;
+            }
+        }
+    }
 
-                // Ignore this player
-                if (overlapPlayer && overlapPlayer != this && !overlapPlayer.isStunned)
-                {
-                    overlapPlayer.Stun();
-                }
+    private void StunOtherPlayers()
+    {
+        // Set a contact filter for the layer mask
+        ContactFilter2D characterFilter = new ContactFilter2D();
+        characterFilter.SetLayerMask(LayerMask.GetMask("Character"));
+        characterFilter.useLayerMask = true;
+
+        // Get all colliders on layer
+        List<Collider2D> characterOverlaps = new List<Collider2D>();
+        characterCollider.OverlapCollider(characterFilter, characterOverlaps);
+
+        // Check all overlapping character colliders
+        foreach (Collider2D overlap in characterOverlaps)
+        {
+            // Try to grab the player
+            Player overlapPlayer = overlap.GetComponentInParent<Player>();
+
+            // Ignore this player
+            if (overlapPlayer && overlapPlayer != this && !overlapPlayer.isStunned)
+            {
+                overlapPlayer.Stun();
             }
         }
     }
