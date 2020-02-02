@@ -57,6 +57,9 @@ public class Player : MonoBehaviour
     public double stunTimeRemaining = Constants.TIME_STUNNED;
     private Device targetDevice;
 
+    // Animation
+    private bool facingLeft = false;
+
     void Awake()
     {
         characterCollider = GetComponent<BoxCollider2D>();
@@ -150,6 +153,12 @@ public class Player : MonoBehaviour
         // Only attempt move if there is some input
         if (horizontalMove != 0.0f)
         {
+            GetComponent<Animator>().SetFloat("horizontalSpeed", velocity.x);
+
+            if (horizontalMove < 0 && !facingLeft)
+                reverseImage();
+            else if (horizontalMove > 0 && facingLeft)
+                reverseImage();
             // Raycast against "World" objects
             float horizontalDirection = Mathf.Sign(horizontalMove);
             RaycastHit2D hitResult = Physics2D.BoxCast(currentPosition, characterCollider.size, 0.0f, new Vector2(horizontalDirection, 0.0f), Mathf.Abs(horizontalMove), LayerMask.GetMask("World"));
@@ -232,6 +241,8 @@ public class Player : MonoBehaviour
             float verticalMove = velocity.y * Time.fixedDeltaTime;
             float verticalDirection = Mathf.Sign(velocity.y);
 
+            GetComponent<Animator>().SetFloat("verticalSpeed", velocity.y);
+
             // Raycast against "World" objects
             RaycastHit2D hitResult = Physics2D.BoxCast(currentPosition, characterCollider.size, 0.0f, new Vector2(0.0f, verticalDirection), Mathf.Abs(verticalMove), LayerMask.GetMask("World"));
 
@@ -259,6 +270,7 @@ public class Player : MonoBehaviour
             // Actually apply the movement
             currentPosition.y += verticalMove;
         }
+        GetComponent<Animator>().SetBool("isGrounded", isGrounded);
     }
 
     private void InterpolatePosition()
@@ -286,7 +298,6 @@ public class Player : MonoBehaviour
             Collider2D hitCollider = Physics2D.OverlapBox(gameObject.transform.position, transform.localScale, 0, m_LayerMask);
             if (hitCollider != null)
             {
-
                 Device hitDevice = hitCollider.GetComponentInParent<Device>();
 
                 if (hitDevice && hitDevice.isDamaged)
@@ -390,4 +401,16 @@ public class Player : MonoBehaviour
 
         return true;
     }
+
+    void reverseImage()
+    {
+        facingLeft = !facingLeft;
+        // Get and store the local scale of the RigidBody2D
+        Vector2 theScale = this.transform.localScale;
+ 
+        // Flip it around the other way
+        theScale.x *= -1;
+        this.transform.localScale = theScale;
+    }
+ 
 }

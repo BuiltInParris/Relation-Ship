@@ -1,13 +1,16 @@
 fileFormatVersion: 2
-guid: 6b4c8cf3f7608463084f5c32b7f5ea1d
+guid: 1340da3b007484bc78442d26fbbe8d63
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7220693634866729110
-    second: RunStrip2_0
+      213: 3797597969707726844
+    second: JumpStrip2_0
   - first:
-      213: -2260073007475156033
-    second: RunStrip2_1
+      213: 2021280890595298847
+    second: JumpStrip2_1
+  - first:
+      213: -6371545634557987056
+    second: JumpStrip2_2
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -104,13 +107,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RunStrip2_0
+      name: JumpStrip2_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1238
-        height: 1233
+        x: 218
+        y: 157
+        width: 703
+        height: 1116
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,20 +121,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a6f28dd5561facb90800000000000000
-      internalID: -7220693634866729110
+      spriteID: cf77c20ab37c3b430800000000000000
+      internalID: 3797597969707726844
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RunStrip2_1
+      name: JumpStrip2_1
       rect:
         serializedVersion: 2
-        x: 1238
-        y: 0
-        width: 1238
-        height: 1233
+        x: 1526
+        y: 104
+        width: 703
+        height: 1116
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,8 +142,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fbb9ef6f29b92a0e0800000000000000
-      internalID: -2260073007475156033
+      spriteID: f1ec733c2480d0c10800000000000000
+      internalID: 2021280890595298847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JumpStrip2_2
+      rect:
+        serializedVersion: 2
+        x: 2224
+        y: 635
+        width: 22
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 017faf5d009b397a0800000000000000
+      internalID: -6371545634557987056
       vertices: []
       indices: 
       edges: []
