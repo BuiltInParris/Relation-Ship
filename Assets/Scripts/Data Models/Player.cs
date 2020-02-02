@@ -63,6 +63,7 @@ public class Player : MonoBehaviour
 
     // Animation
     private bool facingLeft = false;
+    Animator cloud;
 
     void Awake()
     {
@@ -73,6 +74,8 @@ public class Player : MonoBehaviour
         repairSlider = GetComponentInChildren<Slider>();
         repairSlider.gameObject.SetActive(false);
         cooldownText = GetComponentInChildren<TextMeshProUGUI>();
+        cloud = this.transform.Find("Cloud").GetComponent<Animator>();
+        cloud.gameObject.GetComponent<SpriteRenderer>().color = new Color(255f, 255f, 255f, 0f);
         if(!cooldownText)
         {
             Debug.Log("can't find cooldown");
@@ -331,6 +334,8 @@ public class Player : MonoBehaviour
             if (stunTimeRemaining <= 0.0f)
             {
                 isStunned = false;
+                cloud.gameObject.GetComponent<SpriteRenderer>().color = new Color(255f, 255f, 255f, 0f);
+                cloud.SetBool("isStunned", false);
             }
         }
         if (stunCooldownCounter > 0)
@@ -403,6 +408,7 @@ public class Player : MonoBehaviour
         // Check all overlapping character colliders
         foreach (Collider2D overlap in characterOverlaps)
         {
+            
             // Try to grab the player
             Player overlapPlayer = overlap.GetComponentInParent<Player>();
 
@@ -418,6 +424,8 @@ public class Player : MonoBehaviour
     {
         stunTimeRemaining = Constants.TIME_STUNNED;
         isStunned = true;
+        cloud.gameObject.GetComponent<SpriteRenderer>().color = new Color(255f, 255f, 255f, 255f);
+        cloud.SetBool("isStunned", true);
 
         FinishRepair(false);
     }

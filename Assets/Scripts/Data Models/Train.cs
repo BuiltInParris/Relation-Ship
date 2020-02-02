@@ -20,9 +20,9 @@ public class Train : MonoBehaviour
             car.GetComponent<Car>().location = i;
             cars.Add(car);
         }
-        GameObject lastCar = cars.FindLast((GameObject obj) => obj);
+        GameObject lastCar = cars[0];
         Vector3 size = lastCar.GetComponent<Renderer>().bounds.size;
-        Instantiate(skyPrefab, lastCar.transform.position + new Vector3(size[0]/2 - 1, 0, 0), Quaternion.identity);
+        Instantiate(skyPrefab, lastCar.transform.position + new Vector3(-size[0]/2 + 1, 0, 0), Quaternion.identity);
     }
 
     // Update is called once per frame
