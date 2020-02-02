@@ -8,6 +8,7 @@ public class Train : MonoBehaviour
     int speed = 1;
     List<GameObject> cars;
     public GameObject carPrefab;
+    public GameObject skyPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,9 @@ public class Train : MonoBehaviour
             car.GetComponent<Car>().location = i;
             cars.Add(car);
         }
+        GameObject lastCar = cars[0];
+        Vector3 size = lastCar.GetComponent<Renderer>().bounds.size;
+        Instantiate(skyPrefab, lastCar.transform.position + new Vector3(-size[0]/2 + 1, 0, 0), Quaternion.identity);
     }
 
     // Update is called once per frame
