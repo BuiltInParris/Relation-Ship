@@ -25,9 +25,9 @@ public class Takeoff : MonoBehaviour
 
         int totalScore = 0;
 
-        List<PlayerState> states = new List<PlayerState>();
+        List<GameState.PlayerState> states = new List<GameState.PlayerState>();
 
-        foreach(PlayerState playerState in GameState.playerStates){
+        foreach(GameState.PlayerState playerState in GameState.playerStates){
             totalScore += playerState.score;
         }
 
