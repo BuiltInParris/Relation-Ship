@@ -48,7 +48,6 @@ public class Player : MonoBehaviour
     private float horizontalAxis = 0.0f;
 
     // Game Logic
-    public int points = 0;
     public int location = 0;
     public bool isStunned = false;
     public double lastDamaged = Constants.TIME_STUNNED;
@@ -56,6 +55,7 @@ public class Player : MonoBehaviour
     private double time = 0;
     public double stunTimeRemaining = Constants.TIME_STUNNED;
     private Device targetDevice;
+    public GameState.PlayerState playerState;
 
     void Awake()
     {
@@ -336,7 +336,7 @@ public class Player : MonoBehaviour
 
         if (wasSuccessful)
         {
-            points += targetDevice.interact();
+            playerState.score += targetDevice.interact();
         }
     }
 
