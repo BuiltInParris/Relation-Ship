@@ -65,6 +65,7 @@ public class Player : MonoBehaviour
     // Attack
     public GameObject attackHitbox;
     private Collider2D attackCollider;
+    public GameObject stunEffect;
 
     void Awake()
     {
@@ -332,6 +333,7 @@ public class Player : MonoBehaviour
             {
                 isStunned = false;
                 GetComponent<Animator>().SetBool("isStunned", false);
+                stunEffect.SetActive(false);
             }
         }
         if (stunCooldownCounter > 0)
@@ -445,6 +447,8 @@ public class Player : MonoBehaviour
         GetComponent<Animator>().SetBool("isStunned", true);
 
         FinishRepair(false);
+
+        stunEffect.SetActive(true);
     }
 
     public void setCurrentPosition(Vector2 newPosition){
