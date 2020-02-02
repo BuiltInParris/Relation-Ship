@@ -62,6 +62,7 @@ public class Game : MonoBehaviour
             // Create a new player state and add it to the player
             GameState.PlayerState playerState = new GameState.PlayerState();
             playerState.playerId = i;
+            playerState.color = playerColors[i];
             GameState.playerStates.Add(playerState);
             playerScript.playerState = GameState.playerStates[GameState.playerStates.Count - 1];
             players.Add(playerScript);
