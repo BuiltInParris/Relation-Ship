@@ -18,6 +18,9 @@ public class Device : MonoBehaviour, Interactable
 
     Color color;
 
+    public Sprite defaultSprite;
+    public Sprite damagedSprite;
+
 
     // Start is called before the first frame update
     void Start()
@@ -34,10 +37,10 @@ public class Device : MonoBehaviour, Interactable
     void FixedUpdate()
     {
         if(!isDamaged){
-            lastRepaired = lastRepaired + 0.02;
+            lastRepaired = lastRepaired + Time.fixedDeltaTime;
             if(lastRepaired > timeRepaired + randomTimeTillNextDamage){
                 isDamaged = true;
-                this.GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f, 1f);
+                GetComponent<SpriteRenderer>().sprite = damagedSprite;
                 randomTimeTillNextDamage = rnd.Next(0, variableAmountOfTime * 2) - variableAmountOfTime;
                 lastRepaired = 0;
             }
@@ -48,7 +51,7 @@ public class Device : MonoBehaviour, Interactable
         if(isDamaged)
         {
             isDamaged = false;
-            this.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 1f);
+            GetComponent<SpriteRenderer>().sprite = defaultSprite;
 
             return Constants.DEVICE_POINT_VALUE;
         }

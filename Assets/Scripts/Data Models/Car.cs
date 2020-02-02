@@ -14,7 +14,7 @@ public class Car : MonoBehaviour
     {
         devices = new List<GameObject>();
         Vector3 position = this.transform.position;
-        position -= new Vector3(0f, 1f, 0f);
+        position -= new Vector3(-0.3f, 0.38f, 1f);
         for (int i = 0; i < numberOfDevices; i++){
             GameObject device = Instantiate(devicePrefab, position, Quaternion.identity);
             devices.Add(device);
