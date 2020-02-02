@@ -52,7 +52,7 @@ public class GameCameraScript : MonoBehaviour
         if (cam.orthographic)
         {
             // The camera's forward vector is irrelevant, only this size will matter
-            cam.orthographicSize = distance / 2.8f;
+            cam.orthographicSize = distance / 2.5f;
         }
         // You specified to use MoveTowards instead of Slerp
         cam.transform.position = Vector3.Slerp(cam.transform.position, cameraDestination, followTimeDelta);

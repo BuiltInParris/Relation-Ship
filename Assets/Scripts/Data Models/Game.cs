@@ -9,8 +9,10 @@ public class Game : MonoBehaviour
     public double time;
     public double gameTotalTime;
     public GameObject trainPrefab;
-    GameObject train;
+    public GameObject enginePrefab;
     public GameObject playerPrefab;
+    public GameObject train;
+    public GameObject engine;
     List<GameObject> playersObjects;
     List<Player> players;
     public int numberOfPlayers = 2;
@@ -20,6 +22,9 @@ public class Game : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        float xLoc = Constants.DISTANCE_BETWEEN_CARS * (-numberOfPlayers - numberOfPlayers / 2) - 0.5f;
+        engine = Instantiate(enginePrefab, new Vector3(xLoc, 0, 0), Quaternion.identity);
+
         maxPoints = numberOfPlayers * (int)gameTotalTime * 5;
         train = Instantiate(trainPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         train.GetComponent<Train>().numberOfCars = numberOfPlayers + Constants.ADDITONAL_CARS;
@@ -28,7 +33,7 @@ public class Game : MonoBehaviour
         players = new List<Player>();
         for (int i = 0; i < numberOfPlayers; i++)
         {
-            int xLoc = Constants.DISTANCE_BETWEEN_CARS * (i - numberOfPlayers/2);
+            xLoc = Constants.DISTANCE_BETWEEN_CARS * (i - numberOfPlayers/2);
             GameObject player = Instantiate(playerPrefab, new Vector3(xLoc, 0, 0), Quaternion.identity);
             if(Gamepad.all.Count >= numberOfPlayers)
             {
