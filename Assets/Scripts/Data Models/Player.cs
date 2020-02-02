@@ -71,11 +71,6 @@ public class Player : MonoBehaviour
     public AudioClip attackClip;
     public AudioClip fixClip;
 
-    // Sound
-    public AudioClip jumpClip;
-    public AudioClip attackClip;
-    public AudioClip fixClip;
-
     void Awake()
     {
         characterCollider = GetComponent<BoxCollider2D>();
@@ -446,11 +441,6 @@ public class Player : MonoBehaviour
 
         // Play attack sound
         playSound(attackClip);
-<<<<<<< HEAD
-
-        FinishRepair(false);
-=======
->>>>>>> e8889c0cbb09a59fb935255211707280e91c84f1
 
         FinishRepair(false);
     }
@@ -474,19 +464,6 @@ public class Player : MonoBehaviour
         facingLeft = !facingLeft;
         // Get and store the local scale of the RigidBody2D
         Vector2 theScale = this.transform.localScale;
-<<<<<<< HEAD
- 
-        // Flip it around the other way
-        theScale.x *= -1;
-        this.transform.localScale = theScale;
-    }
-
-    void playSound(AudioClip audioClip) {
-        AudioSource audioSource = GetComponent<AudioSource>();
-        audioSource.PlayOneShot(audioClip, 0.7F);
-    }
-=======
->>>>>>> e8889c0cbb09a59fb935255211707280e91c84f1
  
         // Flip it around the other way
         theScale.x *= -1;
