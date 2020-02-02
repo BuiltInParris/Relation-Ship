@@ -24,6 +24,8 @@ public class Game : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        numberOfPlayers = GameSettings.playerCount;
+
         playerColors = new Dictionary<int, Color>();
         playerColors.Add(0, new Color(25f, 0f, 0f, 255f));
         playerColors.Add(1, new Color(0f, 25f, 0f, 255f));

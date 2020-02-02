@@ -60,6 +60,11 @@ public class Player : MonoBehaviour
     public int stunCooldownDisplay;
     private Device targetDevice;
     public GameState.PlayerState playerState;
+    private bool isAttacking = false;
+
+    // Attack
+    public GameObject attackHitbox;
+    private Collider2D attackCollider;
 
     // Animation
     private bool facingLeft = false;
@@ -67,6 +72,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         characterCollider = GetComponent<BoxCollider2D>();
+        attackCollider = attackHitbox.GetComponent<BoxCollider2D>();
     }
 
     void Start() {
@@ -383,14 +389,36 @@ public class Player : MonoBehaviour
         {
             if(stunCooldownCounter == 0)
             {
-                StunOtherPlayers();
+                isAttacking = true;
+                GetComponent<Animator>().SetBool("isAttacking", isAttacking);
+
                 stunCooldownCounter = Constants.STUN_COOLDOWN;
             }
         }
     }
 
+    public void OnAttackAnimationActive()
+    {
+        StunOtherPlayers();
+    }
+
+    public void OnAttackAnimationEnd()
+    {
+        isAttacking = false;
+        GetComponent<Animator>().SetBool("isAttacking", isAttacking);
+    }
+
     private void StunOtherPlayers()
     {
+        if (GetComponent<SpriteRenderer>().flipX)
+        {
+            attackHitbox.transform.localScale = new Vector3(-1.0f, 1.0f);
+        }
+        else
+        {
+            attackHitbox.transform.localScale = new Vector3(1.0f, 1.0f);
+        }
+
         // Set a contact filter for the layer mask
         ContactFilter2D characterFilter = new ContactFilter2D();
         characterFilter.SetLayerMask(LayerMask.GetMask("Character"));
@@ -398,7 +426,7 @@ public class Player : MonoBehaviour
 
         // Get all colliders on layer
         List<Collider2D> characterOverlaps = new List<Collider2D>();
-        characterCollider.OverlapCollider(characterFilter, characterOverlaps);
+        attackCollider.OverlapCollider(characterFilter, characterOverlaps);
 
         // Check all overlapping character colliders
         foreach (Collider2D overlap in characterOverlaps)
@@ -438,13 +466,7 @@ public class Player : MonoBehaviour
 
     void reverseImage()
     {
-        facingLeft = !facingLeft;
-        // Get and store the local scale of the RigidBody2D
-        Vector2 theScale = this.transform.localScale;
- 
-        // Flip it around the other way
-        theScale.x *= -1;
-        this.transform.localScale = theScale;
+
     }
  
 }

@@ -18,7 +18,5 @@ public class ScrollTexture : MonoBehaviour
         Vector2 offset = spriteRenderer.material.mainTextureOffset;
         offset.x += scrollSpeed *Time.deltaTime;
         spriteRenderer.material.mainTextureOffset = offset;
-
-        Debug.Log(spriteRenderer.material.mainTextureOffset.x);
     }
 }
