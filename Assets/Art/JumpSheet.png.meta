@@ -1,16 +1,19 @@
 fileFormatVersion: 2
-guid: 6b4c8cf3f7608463084f5c32b7f5ea1d
+guid: 78664b9b260464f4baa176ba298c8627
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7220693634866729110
-    second: RunStrip2_0
+      213: 6947315469438842598
+    second: JumpSheet_0
   - first:
-      213: -2260073007475156033
-    second: RunStrip2_1
+      213: 5988670041877617365
+    second: JumpSheet_1
   - first:
-      213: 7197014045931791413
-    second: RunStrip2_2
+      213: -538198475723411910
+    second: JumpSheet_2
+  - first:
+      213: 1456676944040118077
+    second: JumpSheet_3
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -107,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RunStrip2_0
+      name: JumpSheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -121,19 +124,40 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a6f28dd5561facb90800000000000000
-      internalID: -7220693634866729110
+      spriteID: 6e67a7a6c92d96060800000000000000
+      internalID: 6947315469438842598
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RunStrip2_1
+      name: JumpSheet_1
       rect:
         serializedVersion: 2
-        x: 1602
+        x: 1676
+        y: 1236
+        width: 156
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5da932b7ca70c1350800000000000000
+      internalID: 5988670041877617365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JumpSheet_2
+      rect:
+        serializedVersion: 2
+        x: 1552
         y: 0
-        width: 1502
+        width: 1552
         height: 1552
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -142,8 +166,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fbb9ef6f29b92a0e0800000000000000
-      internalID: -2260073007475156033
+      spriteID: a3e69db765fe788f0800000000000000
+      internalID: -538198475723411910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JumpSheet_3
+      rect:
+        serializedVersion: 2
+        x: 2423
+        y: 426
+        width: 45
+        height: 198
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d37430a76f7273410800000000000000
+      internalID: 1456676944040118077
       vertices: []
       indices: 
       edges: []
