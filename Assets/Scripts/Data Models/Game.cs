@@ -18,6 +18,8 @@ public class Game : MonoBehaviour
     public int numberOfPlayers = 2;
     public int totalPoints = 0;
     public int maxPoints;
+    public Dictionary<int, Color> playerColors;
+
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +42,7 @@ public class Game : MonoBehaviour
         {
             xLoc = Constants.DISTANCE_BETWEEN_CARS * (i - numberOfPlayers/2);
             GameObject player = Instantiate(playerPrefab, new Vector3(xLoc, 0, 0), Quaternion.identity);
+            player.GetComponent<SpriteRenderer>().color = playerColors[i];
             if(Gamepad.all.Count >= numberOfPlayers)
             {
                 player.GetComponent<PlayerInput>().currentActionMap.devices = new InputDevice[] { Gamepad.all[i] };
