@@ -66,9 +66,6 @@ public class Player : MonoBehaviour
     public GameObject attackHitbox;
     private Collider2D attackCollider;
 
-    // Animation
-    private bool facingLeft = false;
-
     void Awake()
     {
         characterCollider = GetComponent<BoxCollider2D>();
@@ -79,6 +76,7 @@ public class Player : MonoBehaviour
         repairSlider = GetComponentInChildren<Slider>();
         repairSlider.gameObject.SetActive(false);
         cooldownText = GetComponentInChildren<TextMeshProUGUI>();
+
         if(!cooldownText)
         {
             Debug.Log("can't find cooldown");
@@ -171,10 +169,6 @@ public class Player : MonoBehaviour
         {
             GetComponent<Animator>().SetFloat("horizontalSpeed", velocity.x);
 
-            if (horizontalMove < 0 && !facingLeft)
-                reverseImage();
-            else if (horizontalMove > 0 && facingLeft)
-                reverseImage();
             // Raycast against "World" objects
             float horizontalDirection = Mathf.Sign(horizontalMove);
             RaycastHit2D hitResult = Physics2D.BoxCast(currentPosition, characterCollider.size, 0.0f, new Vector2(horizontalDirection, 0.0f), Mathf.Abs(horizontalMove), LayerMask.GetMask("World"));
@@ -337,6 +331,7 @@ public class Player : MonoBehaviour
             if (stunTimeRemaining <= 0.0f)
             {
                 isStunned = false;
+                GetComponent<Animator>().SetBool("isStunned", false);
             }
         }
         if (stunCooldownCounter > 0)
@@ -431,6 +426,7 @@ public class Player : MonoBehaviour
         // Check all overlapping character colliders
         foreach (Collider2D overlap in characterOverlaps)
         {
+            
             // Try to grab the player
             Player overlapPlayer = overlap.GetComponentInParent<Player>();
 
@@ -446,6 +442,7 @@ public class Player : MonoBehaviour
     {
         stunTimeRemaining = Constants.TIME_STUNNED;
         isStunned = true;
+        GetComponent<Animator>().SetBool("isStunned", true);
 
         FinishRepair(false);
     }
@@ -462,11 +459,6 @@ public class Player : MonoBehaviour
         }
 
         return true;
-    }
-
-    void reverseImage()
-    {
-
     }
  
 }
