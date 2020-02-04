@@ -1447,7 +1447,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 17474507}
-  videoPlayer: {fileID: 1175921473}
 --- !u!1 &1291801318
 GameObject:
   m_ObjectHideFlags: 0
