@@ -72,6 +72,15 @@ public class WinScreen : MonoBehaviour
             scoreDisplay.scoreDisplay.text = "" + playerState.score;
 
             i++;
+
+            if (i <= GameState.numSurvivors)
+            {
+                scoreDisplay.statusDisplay.text = aliveString;
+            }
+            else
+            {
+                scoreDisplay.statusDisplay.text = deadString;
+            }
         }
     }
 
