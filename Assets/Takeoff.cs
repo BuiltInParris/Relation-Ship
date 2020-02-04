@@ -20,11 +20,11 @@ public class Takeoff : MonoBehaviour
 
         int startVelocity = 1050;
 
-        int playersLeft = (int) totalScore / 50;
+        int playersLeft = (int) (totalScore / 50);
 
         foreach (GameObject trainCar in GameObject.FindGameObjectsWithTag("Train"))
         {
-            trainCar.GetComponent<Rigidbody2D>().AddForce(new Vector2(startVelocity + playersLeft * 75, yVel));
+            trainCar.GetComponent<Rigidbody2D>().AddForce(new Vector2(startVelocity + playersLeft * 65, yVel));
         }
     }
 }
