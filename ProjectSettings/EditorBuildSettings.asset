@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WinScene.unity
     guid: 58e96b2e99a883744b87a57fe8344ac4
+  - enabled: 1
+    path: Assets/Scenes/Jump.unity
+    guid: ed5a6674f8c7243fba5043712a91e5bc
   m_configObjects: {}
