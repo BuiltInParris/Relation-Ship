@@ -344,10 +344,9 @@ GameObject:
   - component: {fileID: 147959655}
   - component: {fileID: 147959657}
   - component: {fileID: 147959658}
-  - component: {fileID: 147959659}
   m_Layer: 0
   m_Name: passengerCar (1)
-  m_TagString: Untagged
+  m_TagString: Train
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -463,20 +462,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &147959659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 147959654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71db9992fe4df4f309f4f04040312f76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  yVel: 500
-  playerNum: 2
 --- !u!1 &174597864
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,10 +474,9 @@ GameObject:
   - component: {fileID: 174597865}
   - component: {fileID: 174597867}
   - component: {fileID: 174597868}
-  - component: {fileID: 174597869}
   m_Layer: 0
   m_Name: passengerCar
-  m_TagString: Untagged
+  m_TagString: Train
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -608,20 +592,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &174597869
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174597864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71db9992fe4df4f309f4f04040312f76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  yVel: 500
-  playerNum: 1
 --- !u!1 &273663530
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,10 +884,9 @@ GameObject:
   - component: {fileID: 632212400}
   - component: {fileID: 632212402}
   - component: {fileID: 632212403}
-  - component: {fileID: 632212404}
   m_Layer: 0
   m_Name: passengerCar (3)
-  m_TagString: Untagged
+  m_TagString: Train
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1033,20 +1002,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &632212404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 632212399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71db9992fe4df4f309f4f04040312f76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  yVel: 540
-  playerNum: 4
 --- !u!1 &689993929
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,10 +1014,9 @@ GameObject:
   - component: {fileID: 689993930}
   - component: {fileID: 689993932}
   - component: {fileID: 689993933}
-  - component: {fileID: 689993934}
   m_Layer: 0
   m_Name: passengerCar (2)
-  m_TagString: Untagged
+  m_TagString: Train
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1178,20 +1132,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &689993934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 689993929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71db9992fe4df4f309f4f04040312f76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  yVel: 500
-  playerNum: 3
 --- !u!1 &724309796
 GameObject:
   m_ObjectHideFlags: 0
@@ -1500,7 +1440,7 @@ GameObject:
   - component: {fileID: 1539447894}
   m_Layer: 0
   m_Name: trainEngine
-  m_TagString: Untagged
+  m_TagString: Train
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1628,8 +1568,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71db9992fe4df4f309f4f04040312f76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yVel: 500
-  playerNum: 0
 --- !u!1 &1811364645
 GameObject:
   m_ObjectHideFlags: 0
