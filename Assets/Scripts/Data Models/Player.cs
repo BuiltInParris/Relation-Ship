@@ -444,7 +444,9 @@ public class Player : MonoBehaviour
     {
         stunTimeRemaining = Constants.TIME_STUNNED;
         isStunned = true;
+        OnAttackAnimationEnd();
         GetComponent<Animator>().SetBool("isStunned", true);
+
 
         FinishRepair(false);
 
