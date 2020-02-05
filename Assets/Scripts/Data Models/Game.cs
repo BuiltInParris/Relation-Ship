@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -43,7 +44,9 @@ public class Game : MonoBehaviour
         players = new List<Player>();
 
         GameState.playerStates = new List<GameState.PlayerState>();
-
+        
+        int gamePadCount = Gamepad.all.Count;
+        int keyboardCount = 1;
         for (int i = 0; i < numberOfPlayers; i++)
         {
             xLoc = Constants.DISTANCE_BETWEEN_CARS * (i - numberOfPlayers/2);
@@ -51,9 +54,15 @@ public class Game : MonoBehaviour
 
             player.GetComponent<SpriteRenderer>().color = playerColors[i];
 
-            if(Gamepad.all.Count >= numberOfPlayers)
+            if(gamePadCount > 0)
             {
                 player.GetComponent<PlayerInput>().currentActionMap.devices = new InputDevice[] { Gamepad.all[i] };
+                gamePadCount--;
+            }
+            else if(keyboardCount <= 4)
+            {
+                player.GetComponent<PlayerInput>().SwitchCurrentActionMap("Keys_" + keyboardCount);
+                keyboardCount++;
             }
             playersObjects.Add(player);
             Player playerScript = player.GetComponent<Player>();
