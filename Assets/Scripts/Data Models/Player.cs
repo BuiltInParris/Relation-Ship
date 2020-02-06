@@ -357,6 +357,13 @@ public class Player : MonoBehaviour
     {
         if (repairing)
         {
+            // Early exit if another player finished repairing the same device first
+            // TODO: Change this so that you can't start repairing a device someone else is working on?
+            if (!targetDevice.isDamaged)
+            {
+                FinishRepair(false);
+            }
+
             time += Time.deltaTime;
 
             float timerProgress = (float)time / 1.5f;
