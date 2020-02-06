@@ -316,6 +316,7 @@ public class Player : MonoBehaviour
                     targetDevice = hitDevice;
                     repairSlider.gameObject.SetActive(true);
                     repairing = true;
+                    GetComponent<Animator>().SetBool("isRepairing", repairing);
                     time = 0.0f;
                 }
             }
@@ -379,6 +380,7 @@ public class Player : MonoBehaviour
     private void FinishRepair(bool wasSuccessful)
     {
         repairing = false;
+        GetComponent<Animator>().SetBool("isRepairing", repairing);
         repairSlider.gameObject.SetActive(false);
 
         if (wasSuccessful)
