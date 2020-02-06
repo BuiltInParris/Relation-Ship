@@ -21,6 +21,7 @@ public class Takeoff : MonoBehaviour
         int startVelocity = 1050;
 
         int playersLeft = (int) (totalScore / 50);
+        GameState.numSurvivors = playersLeft;
 
         foreach (GameObject trainCar in GameObject.FindGameObjectsWithTag("Train"))
         {

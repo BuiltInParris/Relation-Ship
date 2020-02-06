@@ -34,7 +34,8 @@ public class Game : MonoBehaviour
         playerColors.Add(3, new Color(0f, 25f, 255f, 255f));
 
         float xLoc = Constants.DISTANCE_BETWEEN_CARS * (numberOfPlayers + Constants.ADDITONAL_CARS)/2 + 0.5f;
-        engine = Instantiate(enginePrefab, new Vector3(xLoc, 0, 0), Quaternion.identity);
+        engine = Instantiate(enginePrefab, new Vector3(xLoc - 1.7f, 0.4f, 0), Quaternion.identity);
+        engine.transform.localScale = new Vector3(0.8f, 0.8f, 1f);
 
         maxPoints = numberOfPlayers * (int)gameTotalTime * 5;
         train = Instantiate(trainPrefab, new Vector3(0, 0, 0), Quaternion.identity);

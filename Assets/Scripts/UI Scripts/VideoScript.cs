@@ -14,6 +14,11 @@ public class VideoScript : MonoBehaviour
         videoPlayer.loopPointReached += EndReached;
     }
 
+    public void OnSkip()
+    {
+        EndReached(videoPlayer);
+    }
+
     void EndReached(UnityEngine.Video.VideoPlayer vp)
     {
         SceneManager.LoadScene("Scenes/Main Menu");
