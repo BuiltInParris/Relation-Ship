@@ -26,17 +26,21 @@ public class WinScreen : MonoBehaviour
 
     void PopulateDisplays()
     {
-        scoreDisplays = new PlayerScoreDisplay[GameState.playerStates.Count];
+        scoreDisplays = new PlayerScoreDisplay[4];
 
         foreach (Transform t in transform)
         {
-            if (t.name == "Title" || t.name == "Button")
+            string idString = t.name.Substring(t.name.Length - 1);
+
+            int id = 0;
+
+            try
+            {
+                id = Convert.ToInt32(idString) - 1;
+            } catch (FormatException)
             {
                 continue;
             }
-
-            string idString = t.name.Substring(t.name.Length - 1);
-            int id = Convert.ToInt32(idString) - 1;
 
             if (t.name.StartsWith(namePrefix))
             {
