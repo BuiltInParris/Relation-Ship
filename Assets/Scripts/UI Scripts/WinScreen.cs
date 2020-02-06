@@ -86,6 +86,11 @@ public class WinScreen : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("Scenes/DynamicallyGeneratedLevel");
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("Scenes/MainMenu");
     }
 }

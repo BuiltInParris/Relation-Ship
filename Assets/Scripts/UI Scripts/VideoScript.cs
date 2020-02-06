@@ -21,6 +21,6 @@ public class VideoScript : MonoBehaviour
 
     void EndReached(UnityEngine.Video.VideoPlayer vp)
     {
-        SceneManager.LoadScene("Scenes/Main Menu");
+        SceneManager.LoadScene("Scenes/MainMenu");
     }
 }
