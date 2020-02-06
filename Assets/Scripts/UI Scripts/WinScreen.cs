@@ -26,7 +26,7 @@ public class WinScreen : MonoBehaviour
 
     void PopulateDisplays()
     {
-        scoreDisplays = new PlayerScoreDisplay[4];
+        scoreDisplays = new PlayerScoreDisplay[GameState.playerStates.Count];
 
         foreach (Transform t in transform)
         {

@@ -31,7 +31,11 @@ public class Game : MonoBehaviour
         playerColors.Add(0, new Color(25f, 0f, 0f, 255f));
         playerColors.Add(1, new Color(0f, 25f, 0f, 255f));
         playerColors.Add(2, new Color(0f, 0f, 25f, 255f));
-        playerColors.Add(3, new Color(0f, 25f, 255f, 255f));
+        playerColors.Add(3, new Color(0f, 25f, 25f, 255f));
+        playerColors.Add(4, new Color(25f, 25f, 0f, 255f));
+        playerColors.Add(5, new Color(25f, 0f, 25f, 255f));
+        playerColors.Add(6, new Color(0, 0f, 0, 255f));
+        playerColors.Add(7, new Color(0f, 25f, 25f, 255f));
 
         float xLoc = Constants.DISTANCE_BETWEEN_CARS * (numberOfPlayers + Constants.ADDITONAL_CARS)/2 + 0.5f;
         engine = Instantiate(enginePrefab, new Vector3(xLoc, 0, 0), Quaternion.identity);
