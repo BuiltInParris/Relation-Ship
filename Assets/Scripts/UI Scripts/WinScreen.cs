@@ -30,13 +30,17 @@ public class WinScreen : MonoBehaviour
 
         foreach (Transform t in transform)
         {
-            if (t.name == "Title" || t.name == "Button" || t.name == "Main Menu")
+            string idString = t.name.Substring(t.name.Length - 1);
+
+            int id = 0;
+
+            try
+            {
+                id = Convert.ToInt32(idString) - 1;
+            } catch (FormatException)
             {
                 continue;
             }
-
-            string idString = t.name.Substring(t.name.Length - 1);
-            int id = Convert.ToInt32(idString) - 1;
 
             if (t.name.StartsWith(namePrefix))
             {
