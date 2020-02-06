@@ -26,11 +26,11 @@ public class WinScreen : MonoBehaviour
 
     void PopulateDisplays()
     {
-        scoreDisplays = new PlayerScoreDisplay[GameState.playerStates.Count];
+        scoreDisplays = new PlayerScoreDisplay[4];
 
         foreach (Transform t in transform)
         {
-            if (t.name == "Title" || t.name == "Button")
+            if (t.name == "Title" || t.name == "Button" || t.name == "Main Menu")
             {
                 continue;
             }
